@@ -9,21 +9,36 @@ interface ButtonProps {
   onClick?: () => void;
   className?: string;
 }
-const Button = ({ variant, color, children, onClick, className = "" }: ButtonProps) => {
-  const typz
-  const baseClasses =
-    "rounded-full transition-colors flex items-center justify-center font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]";
-    
-  let variantClasses = "";
-  if (variant === "solid") {
-    variantClasses = `bg-[${colors[color]}] text-white hover:opacity-90`;
-  } else if (variant === "outline") {
-    variantClasses = `border border-[${colors[color]}] text-[${colors[color]}] hover:bg-[${colors[color]}] hover:text-white`;
-  }
+const Button = ({
+  variant,
+  color,
+  children,
+  onClick,
+  className = "",
+}: ButtonProps) => {
+  const variantClassses = {
+    solid: clsx("text-white", "border-2 border-" + color, "bg-" + color),
+    outline: clsx("text-" + color, "border-2 border-" + color, ""),
+  };
+  const typeClasses = {
+    primary: variantClassses[variant],
+    secondary: variantClassses[variant],
+  };
+
   return (
-    <button className={clsx( "",  `${baseClasses} ${variantClasses} ${className}`)} onClick={onClick}>
-      {colors[color]}
+    <button
+      className={clsx(
+        ` ${typeClasses[color]} px-5 py-1.5  font-semibold  w-full rounded ${className}`
+      )}
+      onClick={onClick}
+    >
+      {/* {colors[color]} */}
       {children}
+      <span
+        className={clsx(
+          "hidden border-primary text-primary bg-secondary bg-primary text-secondary"
+        )}
+      ></span>
     </button>
   );
 };
