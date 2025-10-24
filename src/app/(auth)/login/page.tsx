@@ -16,21 +16,31 @@ const Page = () => {
   return (
     <div className="">
       <div className="flex h-screen w-screen  items-center justify-center">
-        <div className=" border-r-2 border-primary  border-0 w-1/3 h-full flex items-center justify-center p-5">
+        <div className=" xl:border-r-2 border-primary   xl:border-0 w-full xl:w-1/2 2xl:h-1/3 h-full  flex items-center justify-center p-5">
           {/* <div className="relative h-full "> */}
           {/* <Image fill src={"/images/login/bg-two.jpg"} className=" shadow rounded-2xl" style={{ objectFit: "cover" }} alt="dd" /> */}
           {/* </div> */}
-          <div className="w-[300px] space-y-10">
+          <div className=" w-[300px] space-y-10">
             {/* Logo */}
             <div className="flex justify-center w-full">
               <Logo />
             </div>
             <div className="space-y-5">
               <div className="space-y-2">
-                <Input placeholder="Nom d'utilisateur" className="" />
+                <Label className="" htmlFor="email">
+                  Email
+                </Label>
+                <Input placeholder="jonhdoh@exemple.com"   className="" />
               </div>
               <div className="space-y-1">
-                <Input placeholder="Mot de passe" type="password" className="" />
+                <Label className="" htmlFor="password">
+                  Mot de passe
+                </Label>
+                <Input
+                  placeholder="Mot de passe"
+                  type="password"
+                  className=""
+                />
                 <Link className=" underline text-sm font-semibold" href={"#"}>
                   Mot de passe oublié ?
                 </Link>
@@ -48,7 +58,7 @@ const Page = () => {
             </div>
           </div>
         </div>
-        <div className=" w-2/3 relative h-full">
+        <div className=" xl:w-1/2 2xl:w-2/3 relative hidden xl:block h-full">
           <Image
             fill
             src={"/images/login/bg-two.jpg"}
@@ -75,7 +85,7 @@ const LoginContainer = ({ children }: LoginContainerProps) => {
   return <div className=""></div>;
 };
 
-const Logo = () => {
+export const Logo = () => {
   return (
     <div className="">
       <Image src={"/images/logo/logo1.png"} alt="logo" width={50} height={50} />
