@@ -25,7 +25,7 @@ const HeaderContent = ({ title, actions }: ContentPageHeaderProps) => {
   return (
     <div>
       {/* Bar  */}
-      <div className="flex items-center bg-amber-200 justify-between  w-full">
+      <div className="flex items-center bg-amber-20 justify-between  w-full">
         {/* Title page and crumb */}
         <div className="">
           <h1 className="text-2xl font-bold">{title}</h1>

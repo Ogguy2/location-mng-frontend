@@ -1,34 +1,21 @@
-import { Logo } from "@/app/(auth)/login/page";
-import { route } from "@/lib/route";
-import { Home, Inbox, Calendar, Settings, Sidebar } from "lucide-react";
+import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+
 import {
-  SidebarHeader,
+  Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarHeader,
   SidebarMenu,
-  SidebarMenuItem,
   SidebarMenuButton,
-  SidebarFooter,
-} from "../ui/sidebar";
+  SidebarMenuItem,
+} from "@/components/ui/sidebar";
+import { Logo } from "@/app/(auth)/login/page";
 import { Button } from "../ui/button";
+import { route } from "@/lib/route";
 
-interface DefaultLayoutContainerProps {
-  children?: React.ReactNode;
-}
-export const DefaultLayoutContainer = ({
-  children,
-}: DefaultLayoutContainerProps) => {
-  return (
-    <div className="w-full p-8">
-      {/* <Menu /> */}
-      <AppSidebar />
-      <main className="ml-[16rem] ">
-        <div className="max-w-7xl mx-auto ">{children}</div>
-      </main>
-    </div>
-  );
-};
+// Menu items.
 
 export const AppSidebar = () => {
   const items = [
@@ -60,7 +47,6 @@ export const AppSidebar = () => {
       icon: Settings,
     },
   ];
-
   return (
     <Sidebar>
       <SidebarHeader>
@@ -98,4 +84,3 @@ export const AppSidebar = () => {
     </Sidebar>
   );
 };
-
