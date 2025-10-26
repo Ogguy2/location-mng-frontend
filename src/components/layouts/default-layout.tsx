@@ -1,3 +1,4 @@
+"use client";
 import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
 
 import {
@@ -14,6 +15,8 @@ import {
 import { Logo } from "@/app/(auth)/login/page";
 import { Button } from "../ui/button";
 import { route } from "@/lib/route";
+import { usePathname } from "next/navigation";
+import clsx from "clsx";
 
 // Menu items.
 
@@ -35,11 +38,6 @@ export const AppSidebar = () => {
       url: route("logements"),
       icon: Home,
     },
-    {
-      title: "Reglements",
-      url: route("home"),
-      icon: Calendar,
-    },
     // User
     {
       title: "Utilisateurs",
@@ -47,6 +45,11 @@ export const AppSidebar = () => {
       icon: Settings,
     },
   ];
+
+  const path = usePathname();
+  const isActive = (url: string, exact: boolean = false) => {
+    return exact ? path === url : path.startsWith(url);
+  };
   return (
     <Sidebar>
       <SidebarHeader>
@@ -66,7 +69,13 @@ export const AppSidebar = () => {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton
+                    className={clsx(
+                      isActive(item.url, item.url == "/" && true) &&
+                        "bg-primary text-white hover:bg-primary hover:text-white"
+                    )}
+                    asChild
+                  >
                     <a href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>

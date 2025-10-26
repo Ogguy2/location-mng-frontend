@@ -1,13 +1,5 @@
-import { ContentPage } from "@/components/layouts/page-layout";
+import { Pencil, Trash } from "lucide-react";
 import {
-  EllipsisVertical,
-  FileSpreadsheet,
-  Pencil,
-  Plus,
-  Trash,
-} from "lucide-react";
-import {
-  TableCaption,
   TableHeader,
   TableRow,
   Table,
@@ -16,47 +8,6 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
-export default function Page() {
-  interface Action {
-    title: string;
-    icon: React.ReactNode;
-  }
-  const actions: Action[] = [
-    {
-      icon: <Plus />,
-      title: "Nouvel enregistrement",
-    },
-    {
-      icon: <FileSpreadsheet />,
-      title: "Exporter",
-    },
-  ];
-  return (
-    <div className="">
-      <ContentPage>
-        {/* Header page with action and crumb */}
-        <ContentPage.Header title="Locataire" actions={actions} />
-        {/* Body page with content an table and other */}
-        <ContentPage.Body>
-          <DefaultTable />
-        </ContentPage.Body>
-      </ContentPage>
-    </div>
-  );
-}
-
-interface DefaultTableProps {
-  // Define any props needed for the table
-  columns: string[];
-  data: any[];
-}
 
 const DefaultTable = () => {
   const datas = [
@@ -150,3 +101,5 @@ const DefaultTable = () => {
     </Table>
   );
 };
+
+export default DefaultTable;

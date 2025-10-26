@@ -9,6 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import Link from "next/link";
 
 interface ContentPageProps {
   children?: React.ReactNode;
@@ -46,10 +47,15 @@ const HeaderContent = ({ title, actions }: ContentPageHeaderProps) => {
               <DropdownMenuContent align="end" className="w-52">
                 <DropdownMenuGroup>
                   {actions.map((action, index: number) => (
-                    <DropdownMenuItem variant="destructive" key={index}>
-                      {action.icon}
-                      {action.title}
-                    </DropdownMenuItem>
+                    <Link key={index} href={action.href}>
+                      <DropdownMenuItem
+                        className="hover:cursor-pointer"
+                        variant="destructive"
+                      >
+                        {action.icon}
+                        {action.title}
+                      </DropdownMenuItem>
+                    </Link>
                   ))}
                 </DropdownMenuGroup>
               </DropdownMenuContent>
@@ -65,7 +71,7 @@ interface ContentPageBodyProps {
   children?: React.ReactNode;
 }
 const BodyContent = ({ children }: ContentPageBodyProps) => {
-  return <div>{children}</div>;
+  return <div className="">{children}</div>;
 };
 ContentPage.Header = HeaderContent;
 ContentPage.Body = BodyContent;

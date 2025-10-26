@@ -1,27 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarTrigger,
-  SidebarProvider,
-} from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 // import { AppSidebar } from "@/components/layouts/default-layout";
-import { route } from "@/lib/route";
-import { Home, Inbox, Calendar, Settings } from "lucide-react";
-import { Logo } from "../(auth)/login/page";
-import { Button } from "@/components/ui/button";
-import {
-  AppSidebar,
-  DefaultLayoutContainer,
-} from "@/components/layouts/default-layout";
+import { AppSidebar } from "@/components/layouts/default-layout";
 // import AppSidebar from "@/components/layouts/app-sider";
 
 export const metadata: Metadata = {
@@ -39,8 +20,8 @@ export default function RootLayout({
       <body className={`  antialiased`}>
         <SidebarProvider>
           <AppSidebar />
-          <main>
-            <SidebarTrigger />
+          <main className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            {/* <SidebarTrigger /> */}
             {children}
           </main>
         </SidebarProvider>

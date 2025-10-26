@@ -35,7 +35,7 @@ const routeTree = {
   },
   // Locataire
   locataire: {
-    prefix: "/locataires",
+    prefix: "/locataire",
     children: {
       new: "/new",
       custom: "/:locataireId/custom",
