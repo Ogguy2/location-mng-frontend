@@ -17,6 +17,7 @@ import { Button } from "../ui/button";
 import { route } from "@/lib/route";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
+import Link from "next/link";
 
 // Menu items.
 
@@ -76,10 +77,10 @@ export const AppSidebar = () => {
                     )}
                     asChild
                   >
-                    <a href={item.url}>
+                    <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

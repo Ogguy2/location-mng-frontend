@@ -38,52 +38,8 @@ const routeTree = {
     prefix: "/locataire",
     children: {
       new: "/new",
-      custom: "/:locataireId/custom",
-      view: "/:locataireId/view",
-    },
-  },
-  estimates: {
-    prefix: "/estimates",
-    children: {
-      new: "/new",
-      custom: "/:estimateuuid/custom",
-      view: "/:estimateuuid/view",
-    },
-  },
-  interventions: {
-    prefix: "/interventions",
-    children: {
-      maintenances: {
-        prefix: "/maintenances",
-        children: {
-          new: "/new",
-          edit: "/:maintenanceuuid/edit",
-          view: "/:maintenanceuuid/view",
-        },
-      },
-      visites: {
-        prefix: "/visites",
-        children: {
-          new: "/new",
-          edit: "/:visiteuuid/edit",
-          view: "/:visiteuuid/view",
-        },
-      },
-      demands: {
-        prefix: "/demands",
-        children: {
-          new: "/new",
-          edit: "/:id/edit",
-        },
-      },
-    },
-  },
-  equipements: {
-    prefix: "/equipements",
-    children: {
-      new: "/new",
-      edit: "/:equipmentuuid/custom",
-      view: "/:equipmentuuid/view",
+      custom: "/:idlocataire/custom",
+      view: "/:idlocataire/view",
     },
   },
   usersmanage: {

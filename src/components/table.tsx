@@ -7,99 +7,110 @@ import {
   TableBody,
   TableCell,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import React from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useRouter } from "next/navigation";
 
-const DefaultTable = () => {
-  const datas = [
-    {
-      invoice: "INV001",
-      status: "Paid",
-      method: "Credit Card",
-      amount: "$250.00",
-    },
-    {
-      invoice: "INV002",
-      status: "Pending",
-      method: "PayPal",
-      amount: "$150.00",
-    },
-    {
-      invoice: "INV003",
-      status: "Overdue",
-      method: "Bank Transfer",
-      amount: "$300.00",
-    },
-    {
-      invoice: "INV001",
-      status: "Paid",
-      method: "Credit Card",
-      amount: "$250.00",
-    },
-    {
-      invoice: "INV002",
-      status: "Pending",
-      method: "PayPal",
-      amount: "$150.00",
-    },
-    {
-      invoice: "INV003",
-      status: "Overdue",
-      method: "Bank Transfer",
-      amount: "$300.00",
-    },
-    {
-      invoice: "INV001",
-      status: "Paid",
-      method: "Credit Card",
-      amount: "$250.00",
-    },
-    {
-      invoice: "INV002",
-      status: "Pending",
-      method: "PayPal",
-      amount: "$150.00",
-    },
-    {
-      invoice: "INV003",
-      status: "Overdue",
-      method: "Bank Transfer",
-      amount: "$300.00",
-    },
-  ];
+interface DefaultTableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[];
+  datasTable: TData[];
+  rowRoute: (idValue: string | number) => string;
+}
+
+const DefaultTable = <TData, TValue>({
+  columns,
+  datasTable,
+  rowRoute,
+}: DefaultTableProps<TData, TValue>) => {
+  const [data, setDatasTable] = React.useState<TData[]>(datasTable);
+  React.useEffect(() => {
+    setDatasTable(datasTable);
+  }, [datasTable]);
+  console.log("data in table:", data);
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  });
+  const router = useRouter();
   return (
     <Table className="w-full ">
       <TableHeader>
-        <TableRow className="font-bold ">
-          <TableHead className="font-bold">Invoice</TableHead>
-          <TableHead className="font-bold">Status</TableHead>
-          <TableHead className="font-bold">Method</TableHead>
-          <TableHead className="text-right">Amount</TableHead>
-          <TableHead className="text-right">Actions</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {datas.map((data, index) => (
-          <TableRow key={index}>
-            <TableCell className="font-medium">{data.invoice}</TableCell>
-            <TableCell>{data.status}</TableCell>
-            <TableCell>{data.method}</TableCell>
-            <TableCell className="text-right">{data.amount}</TableCell>
-            <TableCell className="text-right">
-              <Button size={"lg"} variant={"ghost"}>
-                <Pencil />
-                Editer
-              </Button>
-              {/* Delete */}
-              <Button size={"lg"} variant="destructive" className="ml-2">
-                <Trash />
-                Supprimer
-              </Button>
-            </TableCell>
+        {table.getHeaderGroups().map((headerGroup) => (
+          <TableRow key={headerGroup.id}>
+            {headerGroup.headers.map((header) => {
+              return (
+                <TableHead className="font-bold" key={header.id}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                </TableHead>
+              );
+            })}
           </TableRow>
         ))}
+      </TableHeader>
+      <TableBody>
+        {table.getRowModel().rows?.length ? (
+          table.getRowModel().rows.map((row) => (
+            <TableRow
+              className="hover:cursor-pointer"
+              key={row.id}
+              data-state={row.getIsSelected() && "selected"}
+            >
+              {row.getVisibleCells().map((cell) => (
+                <TableCell
+                  onClick={() => {
+                    if (cell.column.id !== "action") {
+                      const link = rowRoute(
+                        row.original["id"] as string | number
+                      );
+                      console.log("Clicked row, navigate to:", link);
+                      router.push(link);
+                    }
+                  }}
+                  key={cell.id}
+                >
+                  {JSON.stringify(cell.column.columnDef.cell)}
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))
+        ) : (
+          <SkeletonRow length={columns.length} />
+        )}
       </TableBody>
     </Table>
   );
 };
 
 export default DefaultTable;
+
+interface SkeletonRowProps {
+  length: number;
+}
+const SkeletonRow = ({ length }: SkeletonRowProps) => {
+  return (
+    <>
+      {Array.from({ length: 10 }).map((_, index) => {
+        return (
+          <TableRow key={index}>
+            <TableCell colSpan={length} className=" text-center">
+              <Skeleton className="h-[20px] w-full rounded" />
+            </TableCell>
+          </TableRow>
+        );
+      })}
+    </>
+  );
+};

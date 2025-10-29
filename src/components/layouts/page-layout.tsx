@@ -6,10 +6,18 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import Link from "next/link";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "../ui/breadcrumb";
+import React from "react";
 
 interface ContentPageProps {
   children?: React.ReactNode;
@@ -20,27 +28,59 @@ export const ContentPage = ({ children }: ContentPageProps) => {
 
 interface ContentPageHeaderProps {
   title?: string;
+  crumb?: { label: string; href: string }[];
+  actions?: Action[];
+}
+interface Action {
+  title: string;
+  icon: React.ReactNode;
+  type: string;
+  href: string;
 }
 
-const HeaderContent = ({ title, actions }: ContentPageHeaderProps) => {
+const HeaderContent = ({ title, actions, crumb }: ContentPageHeaderProps) => {
   return (
     <div>
       {/* Bar  */}
-      <div className="flex items-center bg-amber-20 justify-between  w-full">
+      <div className="flex items-center bg-amber-00 justify-between  w-full">
         {/* Title page and crumb */}
         <div className="">
           <h1 className="text-2xl font-bold">{title}</h1>
           <div className="text-sm text-muted-foreground">
-            Welcome to your dashboard
+            {/* {crumb ? } */}
+            <Breadcrumb>
+              <BreadcrumbList>
+                {crumb?.map((item, index) => {
+                  return crumb.length - 1 !== index ? (
+                    <React.Fragment key={index}>
+                      <BreadcrumbItem>
+                        <BreadcrumbLink href={item.href}>
+                          {item.label}
+                        </BreadcrumbLink>
+                      </BreadcrumbItem>
+                      <BreadcrumbSeparator />
+                    </React.Fragment>
+                  ) : (
+                    <React.Fragment key={index}>
+                      <BreadcrumbItem key={index}>
+                        <BreadcrumbPage>{item.label}</BreadcrumbPage>
+                      </BreadcrumbItem>
+                    </React.Fragment>
+                  );
+                })}
+              </BreadcrumbList>
+            </Breadcrumb>
           </div>
         </div>
         {/* Action */}
         <div className="">
           <ButtonGroup>
-            <Button variant={"outline"}>Action</Button>
+            <Button size={"lg"} variant={"outline"}>
+              Action
+            </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button aria-label="More Options">
+                <Button size={"lg"} aria-label="More Options">
                   <MoreHorizontalIcon />
                 </Button>
               </DropdownMenuTrigger>
@@ -69,9 +109,10 @@ const HeaderContent = ({ title, actions }: ContentPageHeaderProps) => {
 
 interface ContentPageBodyProps {
   children?: React.ReactNode;
+  className?: string;
 }
-const BodyContent = ({ children }: ContentPageBodyProps) => {
-  return <div className="">{children}</div>;
+const BodyContent = ({ children, className }: ContentPageBodyProps) => {
+  return <div className={className}>{children}</div>;
 };
 ContentPage.Header = HeaderContent;
 ContentPage.Body = BodyContent;
