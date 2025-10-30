@@ -12,7 +12,6 @@ const useLocataire = ({ locataireId, endpoint }: useLocataireProps) => {
   const [data, setData] = React.useState<Locataire[]>([]);
 
   React.useEffect(() => {
-    console.log("useLocataire called with locataireId:", locataireId);
     setLoading(true);
     const fetchLocataire = async () => {
       // Fetch locataire data logic here
@@ -21,7 +20,6 @@ const useLocataire = ({ locataireId, endpoint }: useLocataireProps) => {
       });
       
       if (fetchSuccess(response.status)) {
-        console.log("response data:", response.data);
         if (locataireId) {
           setData(response.data);
         } else {

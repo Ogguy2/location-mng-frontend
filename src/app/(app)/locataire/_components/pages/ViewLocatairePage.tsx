@@ -7,6 +7,7 @@ import getData, { fetchSuccess } from "@/lib/getData";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { InputShowDate } from "@/components/layouts/form-layout";
 import { Action } from "@/types/actions";
+import { toast } from "sonner";
 
 interface ViewLocatairePageProps {
   locataireId: string;
@@ -25,9 +26,7 @@ const useLoc = ({ endpoint, locataireId }: useLocProps) =>
       });
       let data;
       if (fetchSuccess(response.status)) {
-        data = response.data;
-        console.log("response data:", response.status);
-        return data;
+        return response.data;
       } else {
         throw new Error("Error fetching data");
       }
@@ -55,8 +54,21 @@ export default function ViewLocatairePage({
     {
       title: "Supprimer le locataire",
       icon: <Trash />,
-      type: "url",
+      type: "confirm",
       href: "#",
+      action: async () => {
+        const response = await getData({
+          endpoint: `/locataires/${locataireId}`,
+          method: "DELETE",
+        });
+        if (fetchSuccess(response.status)) {
+          toast.success("Locataire mis à jour avec succès!");
+          
+          window.location.href = route("locataire");
+        } else {
+          toast.error("Échec de la mise à jour du locataire.");
+        }
+      },
     },
   ];
   return (

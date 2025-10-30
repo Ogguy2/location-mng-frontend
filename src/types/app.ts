@@ -9,3 +9,14 @@ export interface Locataire {
   createdAt: string; // ISO date string
   updatedAt: string; // ISO date string
 }
+export const defaultLocataire: Locataire = {
+  id: "",
+  fullName: "",
+  email: "",
+  phone: "",
+  startDate: null,
+  endDate: null,
+  deletedAt: null,
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
+};

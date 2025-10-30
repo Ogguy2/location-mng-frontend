@@ -17,18 +17,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
-
-export interface Locataire {
-  id: string; // UUID
-  fullName: string;
-  email: string;
-  startDate: string | null;
-  endDate: string | null;
-  phone: string;
-  createdAt: string; // ISO date string
-  updatedAt: string; // ISO date string
-  deletedAt: string | null;
-}
+import { Locataire } from "@/types/app";
+import { Action } from "@/types/actions";
 
 const columns: ColumnDef<Locataire>[] = [
   {
@@ -86,22 +76,17 @@ const columns: ColumnDef<Locataire>[] = [
                   <DropdownMenuItem
                     className="hover:cursor-pointer"
                     variant="destructive"
+                    asChild
                   >
-                    <PenIcon />
                     <Link
+                      className=""
                       href={route("locataire.custom", {
                         idlocataire: row.original.id,
                       })}
                     >
+                      <PenIcon />
                       Editer
                     </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    className="hover:cursor-pointer"
-                    variant="destructive"
-                  >
-                    <Trash />
-                    Supprimer
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
               </DropdownMenuContent>
@@ -115,12 +100,6 @@ const columns: ColumnDef<Locataire>[] = [
 
 export default function ListLocataire() {
   const { data } = useLocataire({ endpoint: "locataires" });
-  interface Action {
-    title: string;
-    icon: React.ReactNode;
-    type: string;
-    href: string;
-  }
 
   const actions: Action[] = [
     {

@@ -32,7 +32,6 @@ const DefaultTable = <TData, TValue>({
   React.useEffect(() => {
     setDatasTable(datasTable);
   }, [datasTable]);
-  console.log("data in table:", data);
   const table = useReactTable({
     data,
     columns,
@@ -74,7 +73,6 @@ const DefaultTable = <TData, TValue>({
                       const link = rowRoute(
                         row.original["id"] as string | number
                       );
-                      console.log("Clicked row, navigate to:", link);
                       router.push(link);
                     }
                   }}

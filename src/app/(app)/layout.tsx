@@ -3,6 +3,7 @@ import "./globals.css";
 import { SidebarProvider } from "@/components/ui/sidebar";
 // import { AppSidebar } from "@/components/layouts/default-layout";
 import { AppSidebar } from "@/components/layouts/default-layout";
+import { Toaster } from "sonner";
 // import AppSidebar from "@/components/layouts/app-sider";
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -24,6 +25,7 @@ export default function RootLayout({
             {children}
           </main>
         </SidebarProvider>
+        <Toaster position="top-center" />
       </body>
     </html>
   );

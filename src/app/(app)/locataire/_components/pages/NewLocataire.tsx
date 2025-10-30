@@ -13,6 +13,8 @@ import { InputCustomData } from "@/components/layouts/form-layout";
 import React from "react";
 
 import { toast } from "sonner";
+import { defaultLocataire } from "@/types/app";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   fullName: z
@@ -28,47 +30,41 @@ const formSchema = z.object({
   endDate: z.string().optional(),
 });
 
-interface ViewLocatairePageProps {
-  locataireId: string;
-}
 interface useLocProps {
   endpoint: string;
   locataireId: string;
 }
-const useLoc = ({ endpoint, locataireId }: useLocProps) =>
-  useQuery({
-    queryKey: [endpoint, locataireId],
-    queryFn: async ({ queryKey }) => {
-      const response = await getData({
-        endpoint: `/${queryKey[0]}/${queryKey[1] || ""}`,
-      });
-      let data;
-      if (fetchSuccess(response.status)) {
-        return response.data;
-      } else {
-        throw new Error("Error fetching data");
-      }
-    },
-  });
 
-export default function EditLocatairePage({
-  locataireId,
-}: ViewLocatairePageProps) {
-  const { data } = useLoc({ endpoint: "locataires", locataireId });
-
+export default function NewLocataire() {
+  const router = useRouter();
   const form = useForm({
-    defaultValues: data || null,
+    defaultValues: {
+      fullName: "",
+      email: "",
+      phone: "",
+      startDate: null,
+      endDate: null,
+    },
     validators: {
       onSubmit: formSchema,
     },
-    onSubmit: async ({ value }) => {
+    onSubmit: async ({ value, formApi }) => {
       const response = await getData({
-        endpoint: `/locataires/${locataireId}`,
-        method: "PATCH",
-        data: value,
+        endpoint: `/locataires`,
+        method: "POST",
+        data: {
+          ...value,
+          proprietaireId: "75225b4e-c1a0-4925-b448-59afca87aa88",
+        },
+      });
+      console.log("Response create locataire:", {
+        ...value,
+        proprietaireId: "75225b4e-c1a0-4925-b448-59afca87aa88",
       });
       if (fetchSuccess(response.status)) {
         toast.success("Locataire mis à jour avec succès!");
+        router.push(route("locataire"));
+        // return
       } else {
         toast.error("Échec de la mise à jour du locataire.");
       }
@@ -79,15 +75,17 @@ export default function EditLocatairePage({
     {
       title: "Sauvegarder",
       icon: <Save />,
-      type: "url",
+      type: "saveAction",
       href: route("locataire"),
-      action: () => form.handleSubmit(),
+      action: () => {
+        form.handleSubmit();
+      },
     },
     {
       title: "Annuler",
       icon: <X />,
       type: "url",
-      href: route("locataire.view", { idlocataire: locataireId }),
+      href: route("locataire"),
     },
   ];
   return (
