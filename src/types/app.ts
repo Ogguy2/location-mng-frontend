@@ -9,6 +9,22 @@ export interface Locataire {
   createdAt: string; // ISO date string
   updatedAt: string; // ISO date string
 }
+
+export interface Logement {
+  id: string; // UUID
+  title: string;
+  address: string;
+  description: string;
+  proprietaireId: string;
+  locataireId: string | null;
+  rentAmount: number;
+  rentDueDay: number;
+  createdAt: string;
+  deletedAt: string | null;
+  updatedAt: string;
+  isActive: boolean;
+}
+
 export const defaultLocataire: Locataire = {
   id: "",
   fullName: "",

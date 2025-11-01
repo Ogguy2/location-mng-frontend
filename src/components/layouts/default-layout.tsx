@@ -18,10 +18,12 @@ import { route } from "@/lib/route";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import Link from "next/link";
+import { authStore } from "@/app/store/auth.store";
 
 // Menu items.
 
 export const AppSidebar = () => {
+  const store = authStore((state) => state.user);
   const items = [
     {
       title: "Accueil",
@@ -36,7 +38,7 @@ export const AppSidebar = () => {
     // Logement
     {
       title: "Logement",
-      url: route("logements"),
+      url: route("logement"),
       icon: Home,
     },
     // User
@@ -57,9 +59,12 @@ export const AppSidebar = () => {
         <div className="flex items-center gap-3 ">
           <Logo />
           <div className="">
-            <div className="font-bold text-xl  text-foreground">Kevin Dba</div>
+            <div className="font-bold text-xl  text-foreground">
+              {store.fullName}
+            </div>
             <div className="text text-sm text-foreground">
-              kevin.dba@example.com
+              {store.email}
+              {/* {JSON.stringify(store)} */}
             </div>
           </div>
         </div>
@@ -88,6 +93,8 @@ export const AppSidebar = () => {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+              {/* {JSON.stringify(store)} */}
+
       <SidebarFooter>
         <Button className="hover:cursor-pointer">Déconnexion</Button>
       </SidebarFooter>

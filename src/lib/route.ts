@@ -23,14 +23,12 @@ type RouteEntry =
 // 2. Structure imbriquée des routes
 const routeTree = {
   home: "/",
-  logements: {
-    prefix: "/logements",
+  logement: {
+    prefix: "/logement",
     children: {
-      children: {
-        new: "/new",
-        custom: "/:logementId/custom",
-        view: "/:logementId/view",
-      },
+      new: "/new",
+      custom: "/:logementId/custom",
+      view: "/:logementId/view",
     },
   },
   // Locataire

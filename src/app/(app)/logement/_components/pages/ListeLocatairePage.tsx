@@ -17,44 +17,33 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
-import { Locataire } from "@/types/app";
+import { Logement } from "@/types/app";
 import { Action } from "@/types/actions";
+import { Switch } from "@/components/ui/switch";
 
-const columns: ColumnDef<Locataire>[] = [
+const columns: ColumnDef<Logement>[] = [
   {
-    accessorKey: "fullName",
+    accessorKey: "title",
     header: "Nom complet",
   },
   {
-    accessorKey: "email",
-    header: "Email",
+    accessorKey: "address",
+    header: "Adresse",
   },
   {
-    accessorKey: "startDate",
-    header: "Date de début",
+    accessorKey: "description",
+    header: "Description",
+  },
+  {
+    accessorKey: "isActive",
+    header: "Actif",
     cell: ({ cell }) => {
-      const value = cell.getValue<string | null>();
+      const value = cell.getValue<any>();
       if (value) {
-        return new Date(value).toLocaleDateString();
+        return <Switch disabled checked />;
       }
-      // const value = cell.getValue<string>();
-      return value ? value : "";
+      return <Switch disabled />;
     },
-  },
-  {
-    accessorKey: "endDate",
-    header: "Date de fin",
-    cell: ({ cell }) => {
-      const value = cell.getValue<string | null>();
-      if (value) {
-        return new Date(value).toLocaleDateString();
-      }
-      return value ? value : "";
-    },
-  },
-  {
-    accessorKey: "phone",
-    header: "Téléphone",
   },
   {
     accessorKey: "action",
@@ -80,8 +69,8 @@ const columns: ColumnDef<Locataire>[] = [
                     variant="destructive"
                   >
                     <Link
-                      href={route("locataire.view", {
-                        idlocataire: row.original.id,
+                      href={route("logement.view", {
+                        logementId: row.original.id,
                       })}
                     >
                       <Eye />
@@ -95,8 +84,8 @@ const columns: ColumnDef<Locataire>[] = [
                   >
                     <Link
                       className=""
-                      href={route("locataire.custom", {
-                        idlocataire: row.original.id,
+                      href={route("logement.custom", {
+                        logementId: row.original.id,
                       })}
                     >
                       <PenIcon />
@@ -114,14 +103,14 @@ const columns: ColumnDef<Locataire>[] = [
 ];
 
 export default function ListLocataire() {
-  const { data } = useLocataire({ endpoint: "locataires" });
+  const { data } = useLocataire({ endpoint: "logements" });
 
   const actions: Action[] = [
     {
       title: "Nouvel enregistrement",
       icon: <Plus />,
       type: "url",
-      href: route("locataire.new"),
+      href: route("logement.new"),
     },
   ];
   return (
@@ -130,21 +119,21 @@ export default function ListLocataire() {
         {/* Header page with action and crumb */}
         <ContentPage.Header
           crumb={[
-            { label: "Locataires", href: route("locataire") },
+            { label: "Logements", href: route("logement") },
             {
-              label: "Liste des locataires",
+              label: "Liste des logements",
               href: "#",
             },
           ]}
-          title="Locataire"
+          title="List des logements"
           actions={actions}
         />
         {/* Body page with content an table and other */}
         <ContentPage.Body className="">
           <DefaultTable
             rowRoute={(idValue) =>
-              route("locataire.view", {
-                idlocataire: idValue,
+              route("logement.view", {
+                logementId: idValue,
               })
             }
             datasTable={data}

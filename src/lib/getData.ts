@@ -1,6 +1,9 @@
+"use server";
+// import { API_BASE_URL } from "@/app/constants/httpCode";
+import { decrypt } from "@/app/libs/session";
 import axios, { AxiosResponse } from "axios";
+import { cookies } from "next/headers";
 
-const API_BASE_URL = "http://localhost:8081/api/v1";
 const SUCCESS_CODE = 200;
 const CREATED_CODE = 201;
 
@@ -11,12 +14,13 @@ interface fetchPrpos {
 }
 
 export const getData = async (endpoint: fetchPrpos): Promise<any> => {
-  // const token = await verifyTokenExiste();
+  const token = await verifyTokenExiste();
   return axios({
     method: endpoint.method || "GET",
-    url: API_BASE_URL + endpoint.endpoint,
+    url: process.env.NEXT_PUBLIC_API_URL + endpoint.endpoint,
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     data: endpoint.data || {},
   })
@@ -29,21 +33,35 @@ export const getData = async (endpoint: fetchPrpos): Promise<any> => {
     });
 };
 
-export const fetchSuccess = (status: number) => {
-  return [SUCCESS_CODE, CREATED_CODE].includes(status);
-};
-export default getData;
-
-const successResponse = (res: AxiosResponse) => {
+export const successResponse = async (res) => {
   return {
     status: res.status,
     data: res.data,
   };
 };
 
-const errorResponse = (err: any) => {
+const errorResponse = (err) => {
+  if (err.code === "ECONNREFUSED") {
+    return {
+      status: 503,
+      data: "",
+    };
+  }
+  if (err.status == 401) deleteUserSession(err.response);
   return {
     status: err.response?.status,
     error: err.response?.data,
   };
 };
+
+const verifyTokenExiste = async () => {
+  const cookie = (await cookies()).get("session")?.value;
+  const { user } = await decrypt(cookie);
+  return user?.access_token;
+};
+
+const deleteUserSession = async (response: any) => {
+  if (response.status == 401) (await cookies()).delete("session");
+};
+
+export default getData;

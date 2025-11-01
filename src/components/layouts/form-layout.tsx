@@ -32,7 +32,7 @@ export const InputShowDate = ({ name, data }: InputShowDateProps) => {
 export const InputCustomData = (props) => {
   const date = props.field.state.value
     ? new Date(props.field.state.value)
-    : undefined
+    : undefined;
   const [open, setOpen] = React.useState(false);
   // const [date, setDate] = React.useState<Date | undefined>(undefined);
   return (
@@ -80,6 +80,11 @@ export const InputCustomData = (props) => {
           errors={props.field.state.meta.errors}
         />
       }
+      {/* {props.field.state.meta.errorMap.onSubmit && (
+        <div className="submit-error">
+          {JSON.stringify(props.field.state.meta.errorMap.onSubmit[props.field.name])}
+        </div>
+      )} */}
     </>
   );
 };

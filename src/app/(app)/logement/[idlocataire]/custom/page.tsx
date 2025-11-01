@@ -1,5 +1,5 @@
 import React from "react";
-import ViewLocatairePage from "../../_components/pages/ViewLocatairePage";
+import EditLocatairePage from "../../_components/pages/EditLocatairePage";
 import QueryProvider from "@/components/provider";
 
 export default async function Page({
@@ -10,7 +10,7 @@ export default async function Page({
   const { idlocataire } = await params;
   return (
     <QueryProvider>
-      <ViewLocatairePage locataireId={idlocataire} />
+      <EditLocatairePage locataireId={idlocataire} />
     </QueryProvider>
   );
 }

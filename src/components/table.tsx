@@ -16,6 +16,7 @@ import {
 import React from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "next/navigation";
+import clsx from "clsx";
 
 interface DefaultTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -45,7 +46,13 @@ const DefaultTable = <TData, TValue>({
           <TableRow key={headerGroup.id}>
             {headerGroup.headers.map((header) => {
               return (
-                <TableHead className="font-bold" key={header.id}>
+                <TableHead
+                  className={clsx(
+                    header.column.id == "action" && "sr-only",
+                    "font-bold "
+                  )}
+                  key={header.id}
+                >
                   {header.isPlaceholder
                     ? null
                     : flexRender(

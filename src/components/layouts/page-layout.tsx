@@ -54,7 +54,13 @@ const HeaderContent = ({ title, actions, crumb }: ContentPageHeaderProps) => {
     switch (action.type) {
       case "saveAction":
         if (action.action) {
-          await action.action();
+          console.log("Executing save action...");  
+          const dd = await action.action();
+          // alert(dd);
+        }
+        if (action.href) {
+          // wait for 200 ms
+          await new Promise((resolve) => setTimeout(resolve, 200));
           // router.push(action.href);
         }
         // Handle save action
