@@ -5,8 +5,8 @@ import ViewLogementPage from "../../_components/pages/ViewLogementPage";
 export default async function Page({
   params,
 }: {
-  params: Promise<{ idlocataire: string }>;
+  params: Promise<{ logementId: string }>;
 }) {
-  const { idlocataire } = await params;
-  return <ViewLogementPage locataireId={idlocataire} />;
+  const { logementId } = await params;
+  return <ViewLogementPage logementId={logementId} />;
 }

@@ -4,8 +4,8 @@ import EditLocatairePage from "../../_components/pages/EditLogement";
 export default async function Page({
   params,
 }: {
-  params: Promise<{ idlocataire: string }>;
+  params: Promise<{ logementId: string }>;
 }) {
-  const { idlocataire } = await params;
-  return <EditLocatairePage locataireId={idlocataire} />;
+  const { logementId } = await params;
+  return <EditLocatairePage logementId={logementId} />;
 }

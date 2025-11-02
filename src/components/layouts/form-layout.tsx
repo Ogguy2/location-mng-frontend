@@ -8,36 +8,66 @@ import { Button } from "../ui/button";
 import { ChevronDownIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import React from "react";
+import { Switch } from "../ui/switch";
 
 interface InputShowDateProps {
   name: string;
   data: Locataire;
+  type: string;
 }
-export const InputShowDate = ({ name, data }: InputShowDateProps) => {
-  return data ? (
-    <Input
-      id={name}
-      name={name}
-      disabled={true}
-      autoComplete="off"
-      value={data[name] || ""}
-    />
-  ) : (
-    <div>
-      <Skeleton className="h-[44px] w-full rounded" />
-    </div>
+export const InputShowDate = ({ name, data, type }: InputShowDateProps) => {
+  return (
+    <>
+      {data && type === "checkbox" && (
+        <div className=" h-11 flex items-center gap-2">
+          <Switch checked={data[name] || false} disabled={true} />
+        </div>
+      )}
+
+      {data && type !== "checkbox" && (
+        <Input
+          id={name}
+          name={name}
+          type={type}
+          disabled={true}
+          autoComplete="off"
+          value={data[name] || name}
+        />
+      )}
+
+      {!data && (
+        <div>
+          <Skeleton className="h-[44px] w-full rounded" />
+        </div>
+      )}
+    </>
   );
 };
 
 export const InputCustomData = (props) => {
+  // Manage date type
   const date = props.field.state.value
     ? new Date(props.field.state.value)
     : undefined;
   const [open, setOpen] = React.useState(false);
-  // const [date, setDate] = React.useState<Date | undefined>(undefined);
+
+  // Manage checkbox type
+  const value = props.field.state;
+
   return (
     <>
-      {props.type == "date" ? (
+      {props.type == "checkbox" && (
+        <div className=" h-11 flex items-center gap-2">
+          <Switch
+            checked={props.field.state.value || ""}
+            onCheckedChange={(checked) => {
+              props.field.handleChange(checked);
+            }}
+            aria-invalid={props.isInvalid}
+          />
+        </div>
+      )}
+      {props.type == "date" && (
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
@@ -61,19 +91,25 @@ export const InputCustomData = (props) => {
             />
           </PopoverContent>
         </Popover>
-      ) : (
+      )}
+      {(props.type == "text" || props.type == "number") && (
         <Input
           id={props.field.name}
           type={props.type}
           name={props.field.name}
           value={props.field.state.value || ""}
           onBlur={props.field.handleBlur}
-          onChange={(e) => props.field.handleChange(e.target.value)}
+          onChange={(e) => {
+            if (props.type == "number") {
+              props.field.handleChange(e.target.valueAsNumber);
+            } else {
+              props.field.handleChange(e.target.value);
+            }
+          }}
           aria-invalid={props.isInvalid}
           autoComplete="on"
         />
       )}
-
       {
         <FieldError
           className={clsx(props.isInvalid ? "block" : "hidden")}

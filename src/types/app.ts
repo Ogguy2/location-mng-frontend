@@ -36,3 +36,4 @@ export const defaultLocataire: Locataire = {
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
 };
+

@@ -4,53 +4,41 @@ import { CornerDownLeft, Pencil, Trash } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { route } from "@/lib/route";
 import getData from "@/lib/getData";
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { InputShowDate } from "@/components/layouts/form-layout";
 import { Action } from "@/types/actions";
 import { toast } from "sonner";
 import { fetchSuccess } from "@/app/constants/httpCode";
+import HouseForm from "../HouseForm";
+import { useLoc } from "@/components/hooks/useLoc";
 
 interface ViewLocatairePageProps {
-  locataireId: string;
+  logementId: string;
 }
 
 interface useLocProps {
   endpoint: string;
-  locataireId: string;
+  logementId: string;
 }
-const useLoc = ({ endpoint, locataireId }: useLocProps) =>
-  useQuery({
-    queryKey: [endpoint, locataireId],
-    queryFn: async ({ queryKey }) => {
-      const response = await getData({
-        endpoint: `/${queryKey[0]}/${queryKey[1] || ""}`,
-      });
-      let data;
-      if (fetchSuccess(response.status)) {
-        return response.data;
-      } else {
-        throw new Error("Error fetching data");
-      }
-    },
-  });
 
 export default function ViewLogementPage({
-  locataireId,
+  logementId,
 }: ViewLocatairePageProps) {
-  const { data, error } = useLoc({ endpoint: "locataires", locataireId });
+  const { data, error } = useLoc({
+    endpoint: "/logements/" + logementId,
+    key: "logement-detail-" + logementId,
+  });
 
   const actions: Action[] = [
     {
       title: "Retour à la liste",
       icon: <CornerDownLeft />,
       type: "url",
-      href: route("locataire"),
+      href: route("logement"),
     },
     {
       title: "Editer le locataire",
       icon: <Pencil />,
       type: "url",
-      href: route("locataire.custom", { idlocataire: locataireId }),
+      href: route("logement.custom", { logementId: logementId }),
     },
     {
       title: "Supprimer le locataire",
@@ -59,15 +47,15 @@ export default function ViewLogementPage({
       href: "#",
       action: async () => {
         const response = await getData({
-          endpoint: `/locataires/${locataireId}`,
+          endpoint: `/logements/${logementId}`,
           method: "DELETE",
         });
         if (fetchSuccess(response.status)) {
-          toast.success("Locataire mis à jour avec succès!");
+          toast.success("Logement mis à jour avec succès!");
 
           window.location.href = route("locataire");
         } else {
-          toast.error("Échec de la mise à jour du locataire.");
+          toast.error("Échec de la mise à jour du logement.");
         }
       },
     },
@@ -75,40 +63,22 @@ export default function ViewLogementPage({
   return (
     <div className="">
       <ContentPage>
-        {/* {locataireId} */}
         {/* Header page with action and crumb */}
         <ContentPage.Header
           crumb={[
-            { label: "Locataires", href: route("locataire") },
+            { label: "Logement", href: route("logement") },
             {
-              label: "Détails du locataire",
+              label: "Détails du logement",
               href: "#",
             },
           ]}
-          title="Locataire"
+          title="Logement"
           actions={actions}
         />
         {/* Body page with content an table and other */}
         <ContentPage.Body className="">
           {/* {JSON.stringify(data)} */}
-          <FieldGroup className="grid grid-cols-3">
-            {[
-              { name: "fullName", label: "Nom complet" },
-              { name: "email", label: "Adresse e-mail" },
-              { name: "phone", label: "Numéro de téléphone" },
-              { name: "startDate", label: "Début du bail" },
-              { name: "endDate", label: "Date de fin du bail" },
-            ].map((field: { name: string; label: string }) => {
-              return (
-                <Field key={field.name}>
-                  <FieldLabel className="font-semibold" htmlFor={field.name}>
-                    {field.label}
-                  </FieldLabel>
-                  <InputShowDate name={field.name} data={data} />
-                </Field>
-              );
-            })}
-          </FieldGroup>
+          <HouseForm mode="view" initialData={data} />
         </ContentPage.Body>
       </ContentPage>
     </div>
