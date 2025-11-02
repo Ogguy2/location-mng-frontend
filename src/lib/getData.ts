@@ -19,7 +19,7 @@ export const getData = async (endpoint: fetchPrpos): Promise<any> => {
   const token = await verifyTokenExiste();
   return axios({
     method: endpoint.method || "GET",
-    url: process.env.NEXT_PUBLIC_API_URL + endpoint.endpoint+'s',
+    url: process.env.NEXT_PUBLIC_API_URL + endpoint.endpoint,
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
