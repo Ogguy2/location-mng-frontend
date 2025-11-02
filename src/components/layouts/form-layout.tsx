@@ -31,7 +31,7 @@ export const InputShowDate = ({ name, data, type }: InputShowDateProps) => {
           type={type}
           disabled={true}
           autoComplete="off"
-          value={data[name] || name}
+          value={data[name] || ''}
         />
       )}
 
@@ -67,6 +67,7 @@ export const InputCustomData = (props) => {
           />
         </div>
       )}
+      {props.type}
       {props.type == "date" && (
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
@@ -92,7 +93,7 @@ export const InputCustomData = (props) => {
           </PopoverContent>
         </Popover>
       )}
-      {(props.type == "text" || props.type == "number") && (
+      {(props.type == "text" || props.type == "number" || props.type == "email"   ) && (
         <Input
           id={props.field.name}
           type={props.type}
