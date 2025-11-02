@@ -1,15 +1,13 @@
 "use client";
 import { ContentPage } from "@/components/layouts/page-layout";
 import { CornerDownLeft, Pencil, Trash } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
 import { route } from "@/lib/route";
 import getData from "@/lib/getData";
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { InputShowDate } from "@/components/layouts/form-layout";
 import { Action } from "@/types/actions";
 import { toast } from "sonner";
 import { fetchSuccess } from "@/app/constants/httpCode";
 import { useLoc } from "@/components/hooks/useLoc";
+import FormLocataire from "../FormLocataire";
 
 interface ViewLocatairePageProps {
   locataireId: string;
@@ -73,25 +71,10 @@ export default function ViewLocatairePage({
         />
         {/* Body page with content an table and other */}
         <ContentPage.Body className="">
-          {/* {JSON.stringify(data)} */}
-          <FieldGroup className="grid grid-cols-3">
-            {[
-              { name: "fullName", label: "Nom complet" },
-              { name: "email", label: "Adresse e-mail" },
-              { name: "phone", label: "Numéro de téléphone" },
-              { name: "startDate", label: "Début du bail" },
-              { name: "endDate", label: "Date de fin du bail" },
-            ].map((field: { name: string; label: string }) => {
-              return (
-                <Field key={field.name}>
-                  <FieldLabel className="font-semibold" htmlFor={field.name}>
-                    {field.label}
-                  </FieldLabel>
-                  <InputShowDate name={field.name} data={data} />
-                </Field>
-              );
-            })}
-          </FieldGroup>
+          <FormLocataire
+            mode="view"
+            initialData={data}
+          />
         </ContentPage.Body>
       </ContentPage>
     </div>
