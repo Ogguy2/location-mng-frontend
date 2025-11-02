@@ -26,7 +26,6 @@ const generateZodSchema = (fields: FieldConfig[]) => {
 
   fields.forEach((field) => {
     let validator: any;
-
     switch (field.type) {
       case "number":
         validator = z.number();
@@ -41,7 +40,7 @@ const generateZodSchema = (fields: FieldConfig[]) => {
         if (field.validation?.max !== undefined) {
           validator = validator.max(
             field.validation.max,
-            `Le ${field.label.toLowerCase()} doit être inférieur à ${
+            `Le ${field.label.toLowerCase()} doit être inférieur ou égal à ${
               field.validation.max
             }`
           );
@@ -49,10 +48,9 @@ const generateZodSchema = (fields: FieldConfig[]) => {
         break;
 
       case "email":
-        validator = z.string().email(`${field.label} invalide`);
+        validator = z.email(`Adresse e-mail invalide`);
         break;
-
-      case "boolean":
+      case "checkbox":
         validator = z.boolean();
         break;
 
@@ -77,13 +75,12 @@ const generateZodSchema = (fields: FieldConfig[]) => {
         break;
     }
 
-    if (!field.validation?.required && field.type !== "boolean") {
+    if (!field.validation?.required && field.type !== "checkbox") {
       validator = validator.optional();
     }
 
     schema[field.name] = validator;
   });
-
   return z.object(schema);
 };
 
@@ -100,51 +97,19 @@ const renderField = (
   if (mode === "view") {
     // En mode view, on affiche simplement la valeur
     const value = initialData?.[field.name];
+    console.log(initialData);
     return (
-      <Input
-        id={field.name}
-        name={field.name}
-        disabled={true}
-        value={value || ""}
-        readOnly
-      />
+      <InputShowDate name={field.name} data={value} type={field.type} />
     );
+    // <Input
+    //   id={field.name}
+    //   name={field.name}
+    //   disabled={true}
+    //   value={value || ""}
+    //   readOnly
+    // />
   }
-
   switch (field.type) {
-    case "boolean":
-      return (
-        <Switch
-          checked={formField.state.value || false}
-          onCheckedChange={(checked) => formField.handleChange(checked)}
-        />
-      );
-
-    case "textarea":
-      return (
-        <Textarea
-          id={field.name}
-          name={field.name}
-          placeholder={field.placeholder}
-          value={formField.state.value || ""}
-          onChange={(e) => formField.handleChange(e.target.value)}
-          data-invalid={isInvalid}
-        />
-      );
-
-    case "number":
-      return (
-        <Input
-          id={field.name}
-          name={field.name}
-          type="number"
-          placeholder={field.placeholder}
-          value={formField.state.value || ""}
-          onChange={(e) => formField.handleChange(Number(e.target.value))}
-          data-invalid={isInvalid}
-        />
-      );
-
     default:
       return (
         <InputCustomData
@@ -175,8 +140,8 @@ export default function FormGeneric({
             field.defaultValue !== undefined
               ? field.defaultValue
               : field.type === "number"
-              ? 0
-              : field.type === "boolean"
+              ? field.validation?.min || 0
+              : field.type === "checkbox"
               ? false
               : field.type === "date"
               ? null
@@ -194,6 +159,7 @@ export default function FormGeneric({
       onSubmit: formSchema,
     },
     onSubmit: async ({ value }) => {
+      console.log("Form submitted with value:", value);
       if (onSubmit) {
         await onSubmit(value);
       }

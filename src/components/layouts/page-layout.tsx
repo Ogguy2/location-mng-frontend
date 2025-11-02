@@ -56,8 +56,8 @@ const HeaderContent = ({ title, actions, crumb }: ContentPageHeaderProps) => {
     switch (action.type) {
       case "saveAction":
         if (action.action) {
-          console.log("Executing save action...");
           const dd = await action.action();
+          console.log("Executing save action...");
           // alert(dd);
         }
         if (action.href) {

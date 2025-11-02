@@ -64,7 +64,6 @@ export const AppSidebar = () => {
             </div>
             <div className="text text-sm text-foreground">
               {store.email}
-              {/* {JSON.stringify(store)} */}
             </div>
           </div>
         </div>
@@ -93,7 +92,6 @@ export const AppSidebar = () => {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-              {/* {JSON.stringify(store)} */}
 
       <SidebarFooter>
         <Button className="hover:cursor-pointer">Déconnexion</Button>

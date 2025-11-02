@@ -83,7 +83,6 @@ const DefaultTable = <TData, TValue>({
                   }}
                   key={cell.id}
                 >
-                  {JSON.stringify(cell.column.columnDef.cell)}
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </TableCell>
               ))}

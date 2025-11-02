@@ -15,6 +15,8 @@ export const useLoc = (endpoint: useLocProps) =>
       console.log("Fetching data for key:", endpoint);
       const response = await getData({
         endpoint: endpoint.endpoint,
+        method: endpoint.method ? endpoint.method : "GET",
+        data: endpoint.method !== "GET" ? {} : undefined,
       });
       if (fetchSuccess(response.status)) {
         return response.data;
@@ -23,5 +25,3 @@ export const useLoc = (endpoint: useLocProps) =>
       }
     },
   });
-
-  

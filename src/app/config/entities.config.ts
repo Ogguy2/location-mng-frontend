@@ -2,7 +2,7 @@
 export interface FieldConfig {
   name: string;
   label: string;
-  type: "text" | "email" | "tel" | "date" | "number" | "textarea" | "boolean";
+  type: "text" | "email" | "tel" | "date" | "number" | "textarea" | "checkbox";
   validation?: {
     required?: boolean;
     min?: number;
@@ -58,7 +58,7 @@ export const ENTITY_CONFIGS: Record<string, EntityConfig> = {
       },
     ],
   },
-  
+
   logement: {
     name: "logement",
     displayName: "Logement",
@@ -79,8 +79,8 @@ export const ENTITY_CONFIGS: Record<string, EntityConfig> = {
       {
         name: "description",
         label: "Description",
-        type: "textarea",
-        validation: { max: 1000 },
+        type: "text",
+        validation: { max: 255 },
       },
       {
         name: "rentAmount",
@@ -97,61 +97,8 @@ export const ENTITY_CONFIGS: Record<string, EntityConfig> = {
       {
         name: "isActive",
         label: "Actif",
-        type: "boolean",
+        type: "checkbox",
         defaultValue: true,
-      },
-    ],
-  },
-
-  // Facile d'ajouter d'autres entités !
-  paiement: {
-    name: "paiement",
-    displayName: "Paiement",
-    endpoint: "/paiements",
-    fields: [
-      {
-        name: "amount",
-        label: "Montant",
-        type: "number",
-        validation: { required: true, min: 0 },
-      },
-      {
-        name: "paymentDate",
-        label: "Date de paiement",
-        type: "date",
-        validation: { required: true },
-      },
-      {
-        name: "method",
-        label: "Méthode de paiement",
-        type: "text",
-        validation: { required: true },
-      },
-    ],
-  },
-
-  ville: {
-    name: "ville",
-    displayName: "Ville",
-    endpoint: "/villes",
-    fields: [
-      {
-        name: "name",
-        label: "Nom de la ville",
-        type: "text",
-        validation: { required: true, min: 2, max: 100 },
-      },
-      {
-        name: "codePostal",
-        label: "Code postal",
-        type: "text",
-        validation: { required: true, min: 5, max: 5 },
-      },
-      {
-        name: "region",
-        label: "Région",
-        type: "text",
-        validation: { required: true },
       },
     ],
   },

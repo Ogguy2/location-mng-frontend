@@ -12,30 +12,29 @@ import { Switch } from "../ui/switch";
 
 interface InputShowDateProps {
   name: string;
-  data: Locataire;
+  data: any;
   type: string;
 }
 export const InputShowDate = ({ name, data, type }: InputShowDateProps) => {
   return (
     <>
-      {data && type === "checkbox" && (
+      {data !== undefined && data !== null  && type === "checkbox" && (
+
         <div className=" h-11 flex items-center gap-2">
-          <Switch checked={data[name] || false} disabled={true} />
+          <Switch checked={data} disabled={true} />
         </div>
       )}
-
-      {data && type !== "checkbox" && (
+      {data !== undefined && data !== null && type !== "checkbox" && (
         <Input
           id={name}
           name={name}
           type={type}
           disabled={true}
           autoComplete="off"
-          value={data[name] || ''}
+          value={data}
         />
       )}
-
-      {!data && (
+      {data == undefined && (
         <div>
           <Skeleton className="h-[44px] w-full rounded" />
         </div>
@@ -67,7 +66,6 @@ export const InputCustomData = (props) => {
           />
         </div>
       )}
-      {props.type}
       {props.type == "date" && (
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
@@ -93,7 +91,10 @@ export const InputCustomData = (props) => {
           </PopoverContent>
         </Popover>
       )}
-      {(props.type == "text" || props.type == "number" || props.type == "email"   ) && (
+      {(props.type == "text" ||
+        props.type == "number" ||
+        props.type == "email" ||
+        props.type == "tel") && (
         <Input
           id={props.field.name}
           type={props.type}

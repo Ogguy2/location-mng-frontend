@@ -65,6 +65,7 @@ export default function GenericCreatePage({
       type: "saveAction",
       href: getEntityRoute(entityName),
       action: () => {
+        console.log("Submitting form....................", form);
         if (form) {
           form.handleSubmit();
         }

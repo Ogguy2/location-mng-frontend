@@ -16,8 +16,10 @@ const getEntityRoute = (entityName: string): any => {
 };
 
 const getEntityViewRoute = (entityName: string, id: string): any => {
-  if (entityName === "locataire") return route("locataire.view", { idlocataire: id });
-  if (entityName === "logement") return route("logement.view", { logementId: id });
+  if (entityName === "locataire")
+    return route("locataire.view", { idlocataire: id });
+  if (entityName === "logement")
+    return route("logement.view", { logementId: id });
   return "/";
 };
 
@@ -40,6 +42,7 @@ export default function GenericEditPage({
   });
 
   const handleSubmit = async (value: any) => {
+    console.log("XXXXXXXXXXXXXXXXXXXX", value);
     const result = await update(entityId, value);
     // Pas de redirection automatique pour permettre de continuer l'édition
   };
@@ -52,6 +55,7 @@ export default function GenericEditPage({
       href: getEntityRoute(entityName),
       action: () => {
         if (form) {
+          console.log("Submitting form....................", form);
           form.handleSubmit();
         }
       },
@@ -69,7 +73,10 @@ export default function GenericEditPage({
       <ContentPage>
         <ContentPage.Header
           crumb={[
-            { label: config.displayName + "s", href: getEntityRoute(entityName) },
+            {
+              label: config.displayName + "s",
+              href: getEntityRoute(entityName),
+            },
             {
               label: `Modifier ${config.displayName.toLowerCase()}`,
               href: "#",

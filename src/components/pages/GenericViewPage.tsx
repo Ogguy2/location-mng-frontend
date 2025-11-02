@@ -15,8 +15,10 @@ const getEntityRoute = (entityName: string): any => {
 };
 
 const getEntityEditRoute = (entityName: string, id: string): any => {
-  if (entityName === "locataire") return route("locataire.custom", { idlocataire: id });
-  if (entityName === "logement") return route("logement.custom", { logementId: id });
+  if (entityName === "locataire")
+    return route("locataire.custom", { idlocataire: id });
+  if (entityName === "logement")
+    return route("logement.custom", { logementId: id });
   return "/";
 };
 
@@ -68,7 +70,10 @@ export default function GenericViewPage({
       <ContentPage>
         <ContentPage.Header
           crumb={[
-            { label: config.displayName + "s", href: getEntityRoute(entityName) },
+            {
+              label: config.displayName + "s",
+              href: getEntityRoute(entityName),
+            },
             {
               label: `Détails du ${config.displayName.toLowerCase()}`,
               href: "#",
@@ -78,11 +83,7 @@ export default function GenericViewPage({
           actions={actions}
         />
         <ContentPage.Body className="">
-          <FormGeneric
-            entityConfig={config}
-            mode="view"
-            initialData={data}
-          />
+          <FormGeneric entityConfig={config} mode="view" initialData={data} />
         </ContentPage.Body>
       </ContentPage>
     </div>
