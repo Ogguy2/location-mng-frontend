@@ -9,35 +9,19 @@ import { InputShowDate } from "@/components/layouts/form-layout";
 import { Action } from "@/types/actions";
 import { toast } from "sonner";
 import { fetchSuccess } from "@/app/constants/httpCode";
+import { useLoc } from "@/components/hooks/useLoc";
 
 interface ViewLocatairePageProps {
   locataireId: string;
 }
 
-interface useLocProps {
-  endpoint: string;
-  locataireId: string;
-}
-const useLoc = ({ endpoint, locataireId }: useLocProps) =>
-  useQuery({
-    queryKey: [endpoint, locataireId],
-    queryFn: async ({ queryKey }) => {
-      const response = await getData({
-        endpoint: `/${queryKey[0]}/${queryKey[1] || ""}`,
-      });
-      let data;
-      if (fetchSuccess(response.status)) {
-        return response.data;
-      } else {
-        throw new Error("Error fetching data");
-      }
-    },
-  });
-
 export default function ViewLocatairePage({
   locataireId,
 }: ViewLocatairePageProps) {
-  const { data, error } = useLoc({ endpoint: "locataires", locataireId });
+  const { data, error } = useLoc({
+    endpoint: "/locataires/" + locataireId,
+    key: "locataire-detail-" + locataireId,
+  });
 
   const actions: Action[] = [
     {
@@ -57,17 +41,18 @@ export default function ViewLocatairePage({
       icon: <Trash />,
       type: "confirm",
       href: "#",
+
       action: async () => {
         const response = await getData({
           endpoint: `/locataires/${locataireId}`,
           method: "DELETE",
         });
+
         if (fetchSuccess(response.status)) {
           toast.success("Locataire mis à jour avec succès!");
-          
-          window.location.href = route("locataire");
+          // window.location.href = route("locataire");
         } else {
-          toast.error("Échec de la mise à jour du locataire.");
+          toast.error("Échec de lad mise à jour du locataire.");
         }
       },
     },
@@ -75,8 +60,6 @@ export default function ViewLocatairePage({
   return (
     <div className="">
       <ContentPage>
-        {/* {locataireId} */}
-        {/* Header page with action and crumb */}
         <ContentPage.Header
           crumb={[
             { label: "Locataires", href: route("locataire") },

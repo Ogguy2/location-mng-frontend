@@ -1,6 +1,6 @@
 import React from "react";
 import QueryProvider from "@/components/provider";
-import NewLocataire from "../_components/pages/NewLocataire";
+import NewLocataire from "../_components/pages/NewLogement";
 
 export default async function Page({
   params,

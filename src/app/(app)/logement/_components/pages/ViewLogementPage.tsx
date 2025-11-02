@@ -34,7 +34,7 @@ const useLoc = ({ endpoint, locataireId }: useLocProps) =>
     },
   });
 
-export default function ViewLocatairePage({
+export default function ViewLogementPage({
   locataireId,
 }: ViewLocatairePageProps) {
   const { data, error } = useLoc({ endpoint: "locataires", locataireId });
@@ -64,7 +64,7 @@ export default function ViewLocatairePage({
         });
         if (fetchSuccess(response.status)) {
           toast.success("Locataire mis à jour avec succès!");
-          
+
           window.location.href = route("locataire");
         } else {
           toast.error("Échec de la mise à jour du locataire.");

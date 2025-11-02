@@ -4,7 +4,7 @@ import { Plus, Save, X } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { useForm } from "@tanstack/react-form";
 import { route } from "@/lib/route";
-import getData, { fetchSuccess } from "@/lib/getData";
+import getData from "@/lib/getData";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import z from "zod";
 
@@ -13,6 +13,7 @@ import { InputCustomData } from "@/components/layouts/form-layout";
 import React from "react";
 
 import { toast } from "sonner";
+import { fetchSuccess } from "@/app/constants/httpCode";
 
 const formSchema = z.object({
   fullName: z
@@ -51,7 +52,7 @@ const useLoc = ({ endpoint, locataireId }: useLocProps) =>
     },
   });
 
-export default function EditLocatairePage({
+export default function EditLogementPage({
   locataireId,
 }: ViewLocatairePageProps) {
   const { data } = useLoc({ endpoint: "locataires", locataireId });

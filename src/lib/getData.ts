@@ -2,6 +2,7 @@
 // import { API_BASE_URL } from "@/app/constants/httpCode";
 import { decrypt } from "@/app/libs/session";
 import axios, { AxiosResponse } from "axios";
+import EventEmitter from "events";
 import { cookies } from "next/headers";
 
 const SUCCESS_CODE = 200;
@@ -14,10 +15,11 @@ interface fetchPrpos {
 }
 
 export const getData = async (endpoint: fetchPrpos): Promise<any> => {
+  const eventEmitter = new EventEmitter();
   const token = await verifyTokenExiste();
   return axios({
     method: endpoint.method || "GET",
-    url: process.env.NEXT_PUBLIC_API_URL + endpoint.endpoint,
+    url: process.env.NEXT_PUBLIC_API_URL + endpoint.endpoint+'s',
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
@@ -28,7 +30,6 @@ export const getData = async (endpoint: fetchPrpos): Promise<any> => {
       return successResponse(res);
     })
     .catch((err) => {
-      console.error("Error in getData:", err);
       return errorResponse(err);
     });
 };
@@ -65,3 +66,4 @@ const deleteUserSession = async (response: any) => {
 };
 
 export default getData;
+

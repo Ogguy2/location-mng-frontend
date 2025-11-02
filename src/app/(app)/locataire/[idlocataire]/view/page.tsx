@@ -9,8 +9,8 @@ export default async function Page({
 }) {
   const { idlocataire } = await params;
   return (
-    <QueryProvider>
-      <ViewLocatairePage locataireId={idlocataire} />
-    </QueryProvider>
+    // <QueryProvider>
+    <ViewLocatairePage locataireId={idlocataire} />
+    // </QueryProvider>
   );
 }

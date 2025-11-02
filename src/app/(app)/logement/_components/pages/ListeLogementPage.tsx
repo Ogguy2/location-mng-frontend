@@ -102,7 +102,7 @@ const columns: ColumnDef<Logement>[] = [
   },
 ];
 
-export default function ListLocataire() {
+export default function ListeLogement() {
   const { data } = useLocataire({ endpoint: "logements" });
 
   const actions: Action[] = [
@@ -125,18 +125,21 @@ export default function ListLocataire() {
               href: "#",
             },
           ]}
-          title="List des logements"
+          title="Liste des logements"
           actions={actions}
         />
         {/* Body page with content an table and other */}
         <ContentPage.Body className="">
           <DefaultTable
+            datasRoute={{
+              endpoint: "/logements",
+              key: "logements-list",
+            }}
             rowRoute={(idValue) =>
               route("logement.view", {
                 logementId: idValue,
               })
             }
-            datasTable={data}
             columns={columns}
           />
         </ContentPage.Body>

@@ -1,6 +1,6 @@
 import React from "react";
-import EditLocatairePage from "../../_components/pages/EditLocatairePage";
 import QueryProvider from "@/components/provider";
+import ViewLogementPage from "../../_components/pages/ViewLogementPage";
 
 export default async function Page({
   params,
@@ -8,9 +8,5 @@ export default async function Page({
   params: Promise<{ idlocataire: string }>;
 }) {
   const { idlocataire } = await params;
-  return (
-    <QueryProvider>
-      <EditLocatairePage locataireId={idlocataire} />
-    </QueryProvider>
-  );
+  return <ViewLogementPage locataireId={idlocataire} />;
 }

@@ -1,0 +1,27 @@
+import { fetchSuccess } from "@/app/constants/httpCode";
+import getData from "@/lib/getData";
+import { useQuery } from "@tanstack/react-query";
+
+interface useLocProps {
+  key: string;
+  endpoint: string;
+  method?: "GET" | "POST" | "PUT" | "DELETE";
+  // locataireId?: string;
+}
+export const useLoc = (endpoint: useLocProps) =>
+  useQuery({
+    queryKey: [endpoint.key],
+    queryFn: async ({ queryKey }) => {
+      console.log("Fetching data for key:", endpoint);
+      const response = await getData({
+        endpoint: endpoint.endpoint,
+      });
+      if (fetchSuccess(response.status)) {
+        return response.data;
+      } else {
+        throw new Error("Error fetching data");
+      }
+    },
+  });
+
+  

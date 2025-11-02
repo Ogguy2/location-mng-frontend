@@ -1,4 +1,3 @@
-import { Pencil, Trash } from "lucide-react";
 import {
   TableHeader,
   TableRow,
@@ -17,24 +16,23 @@ import React from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "next/navigation";
 import clsx from "clsx";
+import { useLoc } from "./hooks/useLoc";
 
 interface DefaultTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  datasTable: TData[];
+  datasRoute: { endpoint: string; key: string };
   rowRoute: (idValue: string | number) => string;
 }
 
 const DefaultTable = <TData, TValue>({
   columns,
-  datasTable,
+  datasRoute,
   rowRoute,
 }: DefaultTableProps<TData, TValue>) => {
-  const [data, setDatasTable] = React.useState<TData[]>(datasTable);
-  React.useEffect(() => {
-    setDatasTable(datasTable);
-  }, [datasTable]);
+  const { data } = useLoc(datasRoute);
+
   const table = useReactTable({
-    data,
+    data: data ? data.data : [],
     columns,
     getCoreRowModel: getCoreRowModel(),
   });

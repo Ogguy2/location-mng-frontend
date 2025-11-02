@@ -37,7 +37,7 @@ interface useLocProps {
   locataireId: string;
 }
 
-export default function NewLocataire() {
+export default function NewLogement() {
   const user = authStore((state) => state.user);
   const router = useRouter();
   const form = useForm({

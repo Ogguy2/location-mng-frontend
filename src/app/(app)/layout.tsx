@@ -8,6 +8,8 @@ import { cookies } from "next/headers";
 import { authStore } from "../store/auth.store";
 import HydrateUser from "@/components/HydrateUser";
 import { decrypt } from "../libs/session";
+import QueryProvider from "@/components/provider";
+import { DialogAlertInfo } from "@/components/layouts/page-layout";
 // import AppSidebar from "@/components/layouts/app-sider";
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -27,15 +29,20 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`  antialiased`}>
         <HydrateUser user={user} />
-        <SidebarProvider>
-          <AppSidebar />
-          <main className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            {/* <SidebarTrigger /> */}
-            {children}
-          </main>
-        </SidebarProvider>
+        <QueryProvider>
+          <SidebarProvider>
+            <AppSidebar />
+            <main className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+              {/* <SidebarTrigger /> */}
+              {children}
+            </main>
+          </SidebarProvider>
+        </QueryProvider>
         <Toaster position="top-center" />
+        {/* <DialogAlertInfo /> */}
       </body>
     </html>
   );
 }
+
+

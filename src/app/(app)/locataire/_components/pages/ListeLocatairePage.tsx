@@ -4,7 +4,6 @@ import { Eye, MoreHorizontalIcon, PenIcon, Plus, Trash } from "lucide-react";
 
 import DefaultTable from "@/components/table";
 import { route } from "@/lib/route";
-import useLocataire from "@/components/hooks/useLocataire";
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
@@ -37,7 +36,6 @@ const columns: ColumnDef<Locataire>[] = [
       if (value) {
         return new Date(value).toLocaleDateString();
       }
-      // const value = cell.getValue<string>();
       return value ? value : "";
     },
   },
@@ -114,8 +112,6 @@ const columns: ColumnDef<Locataire>[] = [
 ];
 
 export default function ListLocataire() {
-  const { data } = useLocataire({ endpoint: "locataires" });
-
   const actions: Action[] = [
     {
       title: "Nouvel enregistrement",
@@ -142,12 +138,15 @@ export default function ListLocataire() {
         {/* Body page with content an table and other */}
         <ContentPage.Body className="">
           <DefaultTable
+            datasRoute={{
+              endpoint: "/locataires",
+              key: "locataires-list",
+            }}
             rowRoute={(idValue) =>
               route("locataire.view", {
                 idlocataire: idValue,
               })
             }
-            datasTable={data}
             columns={columns}
           />
         </ContentPage.Body>

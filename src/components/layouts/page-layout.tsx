@@ -50,17 +50,19 @@ const HeaderContent = ({ title, actions, crumb }: ContentPageHeaderProps) => {
   const router = useRouter();
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   const [actionDefault, setActionDefault] = React.useState<Action | null>(null);
+
+  // Handle action based on its type
   const handleAction = async (action: Action, router) => {
     switch (action.type) {
       case "saveAction":
         if (action.action) {
-          console.log("Executing save action...");  
+          console.log("Executing save action...");
           const dd = await action.action();
           // alert(dd);
         }
         if (action.href) {
           // wait for 200 ms
-          await new Promise((resolve) => setTimeout(resolve, 200));
+          // await new Promise((resolve) => setTimeout(resolve, 200));
           // router.push(action.href);
         }
         // Handle save action
@@ -183,9 +185,11 @@ const BodyContent = ({ children, className }: ContentPageBodyProps) => {
 ContentPage.Header = HeaderContent;
 ContentPage.Body = BodyContent;
 
-interface DialogProps {
-  isOpen: boolean;
-}
+// interface DialogProps {
+//   isOpen: boolean;
+//   onClose: () => void;
+//   onConfirm: () => void | undefined;
+// }
 const Dialog = ({ isOpen, onClose, onConfirm }) => {
   return (
     <AlertDialog open={isOpen}>
@@ -199,6 +203,40 @@ const Dialog = ({ isOpen, onClose, onConfirm }) => {
         <AlertDialogFooter>
           <AlertDialogCancel onClick={onClose}>Cancel</AlertDialogCancel>
           <AlertDialogAction onClick={onConfirm}>Continue</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+};
+
+export const DialogAlertInfo = () => {
+  const [message, setMessage] = React.useState("Aucun événement reçu");
+  const [isOpen, setIsOpen] = React.useState(false);
+  React.useEffect(() => {
+    const lister = (event: Event) => {
+      const customEvent = event as CustomEvent;
+      setMessage(customEvent.detail.message);
+      setIsOpen(true);
+    };
+    window.addEventListener("locataireUpdated", lister);
+    return () => {
+      window.removeEventListener("locataireUpdated", lister);
+    };
+  }, []);
+  return (
+    <AlertDialog open={isOpen}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Erreur</AlertDialogTitle>
+          <AlertDialogDescription>
+            Cette action ne peut pas être annulée.
+            {message}
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter className="text-center">
+          <AlertDialogCancel onClick={() => setIsOpen(false)}>
+            Cancel
+          </AlertDialogCancel>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
