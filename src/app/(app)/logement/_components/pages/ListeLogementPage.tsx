@@ -35,6 +35,20 @@ const columns: ColumnDef<Logement>[] = [
     header: "Description",
   },
   {
+    accessorKey: "rentAmount",
+    header: "Montant du loyer",
+    cell: ({ cell }) => {
+      return cell.getValue<number>() + " €";
+    }
+  },
+  {
+    accessorKey: "rentDueDay",
+    header: "Jour de paiement",
+    cell: ({ cell }) => {
+      return "le " + cell.getValue<number>() + " du mois";
+    },
+  },
+  {
     accessorKey: "isActive",
     header: "Actif",
     cell: ({ cell }) => {

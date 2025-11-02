@@ -32,7 +32,6 @@ export default function EditLogementPage({
   });
 
   const handleSubmit = async (value: any) => {
-    console.log("Submitting", value);
     const response = await getData({
       endpoint: `/logements/${logementId}`,
       method: "PATCH",

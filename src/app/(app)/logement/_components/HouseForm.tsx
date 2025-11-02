@@ -16,11 +16,12 @@ const formSchema = z.object({
     .max(255, "La désignation doit comporter au maximum 255 caractères."),
   address: z
     .string()
+    .min(1, "La description doit comporter au moins 3 caractères.")
     .max(500, "L'adresse doit comporter au maximum 500 caractères."),
   description: z
     .string()
     .max(1000, "La description doit comporter au maximum 1000 caractères."),
-  rentAmount: z.number().min(0, "Le montant du loyer doit être positif."),
+  rentAmount: z.number().min(10000, "Le montant du loyer doit être positif."),
   rentDueDay: z
     .number("Le jour de paiement doit être un nombre.")
     .min(1, "Le jour de paiement doit être entre 1 et 31.")

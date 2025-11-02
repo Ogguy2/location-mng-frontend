@@ -25,11 +25,6 @@ export default function NewLocataire() {
         proprietaireId: user.id,
       },
     });
-    console.log("Response create locataire:", response);
-    console.log("Response create locataire:", {
-      ...value,
-      proprietaireId: user.id,
-    });
     if (fetchSuccess(response.status)) {
       toast.success("Locataire créé avec succès!");
       router.push(route("locataire"));
