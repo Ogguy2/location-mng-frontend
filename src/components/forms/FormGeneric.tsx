@@ -97,7 +97,6 @@ const renderField = (
   if (mode === "view") {
     // En mode view, on affiche simplement la valeur
     const value = initialData?.[field.name];
-    console.log(initialData);
     return <InputShowDate name={field.name} data={value} type={field.type} />;
     // <Input
     //   id={field.name}

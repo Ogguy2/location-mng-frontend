@@ -9,7 +9,6 @@ export async function middleware(request: NextRequest) {
   // Check if the user is authenticated
   const cookie = (await cookies()).get("session")?.value;
   const session = await decrypt(cookie);
-  console.log("user Session", session);
 
   const isProtecedRoute = protectedRouteList.includes(request.nextUrl.pathname);
   const isPublicRoute = publicRouteList.includes(request.nextUrl.pathname);
@@ -20,7 +19,6 @@ export async function middleware(request: NextRequest) {
   }
   //  Redirection wer la page de donnexion en cas ou non connecté
   if (!isPublicRoute && !session?.user) {
-    console.log("user Session", session?.user);
     return NextResponse.redirect(new URL("/login", request.url));
   }
 

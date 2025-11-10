@@ -32,6 +32,15 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/dialog";
 
 interface ContentPageProps {
   children?: React.ReactNode;
@@ -51,8 +60,13 @@ const HeaderContent = ({ title, actions, crumb }: ContentPageHeaderProps) => {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   const [actionDefault, setActionDefault] = React.useState<Action | null>(null);
 
+  // Dialog action State
+  const [dialogContent, setContenDialog] =
+    React.useState<React.ReactNode>(null);
+  const [dialogTitle, setDialogTitle] = React.useState<string>("");
+  const [dialogDescription, setDialogDescription] = React.useState<string>("");
   // Handle action based on its type
-  const handleAction = async (action: Action, router) => {
+  const handleAction = async (action: Action, router: any) => {
     switch (action.type) {
       case "saveAction":
         if (action.action) {
@@ -72,8 +86,14 @@ const HeaderContent = ({ title, actions, crumb }: ContentPageHeaderProps) => {
         break;
       case "dialog":
         // Ouvre un modal (état à gérer via useState)
-        // setDialogContent(action.dialogContent);
-        // setDialogOpen(true);
+        setActionDefault(action);
+        actionDefault?.beforeAction && (await actionDefault.beforeAction());
+        setDialogTitle(action.title);
+        setDialogDescription(action.description || "");
+        setContenDialog(action.dialogContent);
+        if (action.requiresConfirmation) {
+          setIsDialogOpen(true);
+        }
         break;
 
       case "confirm":
@@ -166,10 +186,19 @@ const HeaderContent = ({ title, actions, crumb }: ContentPageHeaderProps) => {
           </ButtonGroup>
         </div>
       </div>
-      <Dialog
+      {/* <DialogConfirmation
         onConfirm={actionDefault?.action}
         isOpen={isDialogOpen}
         onClose={() => setIsDialogOpen(false)}
+      /> */}
+      <DialogeWithContentForm
+        title={dialogTitle}
+        description={dialogDescription}
+        dialogContent={dialogContent}
+        isOpen={isDialogOpen}
+        setOpen={setIsDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+        onConfirm={actionDefault?.action}
       />
     </div>
   );
@@ -190,7 +219,7 @@ ContentPage.Body = BodyContent;
 //   onClose: () => void;
 //   onConfirm: () => void | undefined;
 // }
-const Dialog = ({ isOpen, onClose, onConfirm }) => {
+const DialogConfirmation = ({ isOpen, onClose, onConfirm }) => {
   return (
     <AlertDialog open={isOpen}>
       <AlertDialogContent>
@@ -206,6 +235,57 @@ const Dialog = ({ isOpen, onClose, onConfirm }) => {
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
+  );
+};
+
+const DialogeWithContentForm = ({
+  isOpen,
+  onClose,
+  onConfirm,
+  title,
+  description,
+  dialogContent,
+  setOpen,
+}) => {
+  return (
+    <Dialog open={isOpen}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
+        </DialogHeader>
+        {dialogContent}
+        <DialogFooter className="sm:justify-start">
+          <DialogClose asChild>
+            <Button variant={"outline"} onClick={onClose}>
+              Annulé
+            </Button>
+          </DialogClose>
+          <DialogClose asChild>
+            <Button
+              onClick={() => {
+                onConfirm();
+                setOpen(false);
+              }}
+            >
+              Valider
+            </Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+    // <AlertDialog open={isOpen}>
+    //   <AlertDialogContent>
+    //     <AlertDialogHeader>
+    //       <AlertDialogTitle></AlertDialogTitle>
+    //       <AlertDialogDescription></AlertDialogDescription>
+    //     </AlertDialogHeader>
+    //     <AlertDialogFooter>
+    //       <AlertDialogCancel onClick={onClose}>Cancel</AlertDialogCancel>
+    //       <AlertDialogAction onClick={onConfirm}>Continue</AlertDialogAction>
+    //     </AlertDialogFooter>
+    //   </AlertDialogContent>
+    // </AlertDialog>
   );
 };
 

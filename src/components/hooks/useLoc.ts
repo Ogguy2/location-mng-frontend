@@ -12,14 +12,12 @@ export const useLoc = (endpoint: useLocProps) =>
   useQuery({
     queryKey: [endpoint.key],
     queryFn: async ({ queryKey }) => {
-      console.log("Fetching data for key:", endpoint);
       const response = await getData({
         endpoint: endpoint.endpoint,
         method: endpoint.method ? endpoint.method : "GET",
         data: endpoint.method !== "GET" ? {} : undefined,
       });
       if (fetchSuccess(response.status)) {
-        console.log("Data fetched for key:", queryKey, response.data);
         return response.data;
       } else {
         throw new Error("Error fetching data");

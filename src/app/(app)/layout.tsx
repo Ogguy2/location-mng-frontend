@@ -21,7 +21,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // console.log("Rendering RootLayout", cookies());
   const cookie = (await cookies()).get("session")?.value;
   const { user } = await decrypt(cookie);
   return (
