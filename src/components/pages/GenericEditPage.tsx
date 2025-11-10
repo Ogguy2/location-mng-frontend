@@ -1,29 +1,14 @@
 "use client";
 import { ContentPage } from "@/components/layouts/page-layout";
-import { Save, X } from "lucide-react";
-import { route } from "@/lib/route";
-import { Action } from "@/types/actions";
+import { getEntityRoute } from "@/lib/actions.utils";
 import React from "react";
 import { useLoc } from "@/components/hooks/useLoc";
 import FormGeneric from "@/components/forms/FormGeneric";
 import { useEntityOperations } from "@/hooks/useEntityOperations";
+import { useEntityActions } from "@/hooks/useEntityActions";
+import { ActionProps } from "@/lib/actions.utils";
 
-// Helper pour gérer les routes dynamiquement
-const getEntityRoute = (entityName: string): any => {
-  if (entityName === "locataire") return route("locataire");
-  if (entityName === "logement") return route("logement");
-  return "/";
-};
-
-const getEntityViewRoute = (entityName: string, id: string): any => {
-  if (entityName === "locataire")
-    return route("locataire.view", { idlocataire: id });
-  if (entityName === "logement")
-    return route("logement.view", { logementId: id });
-  return "/";
-};
-
-interface GenericEditPageProps {
+interface GenericEditPageProps extends ActionProps {
   entityName: string; // "locataire", "logement", etc.
   entityId: string;
 }
@@ -31,6 +16,11 @@ interface GenericEditPageProps {
 export default function GenericEditPage({
   entityName,
   entityId,
+  useDefaultActions = true,
+  additionalActions,
+  customActions,
+  onActionsReady,
+  onDelete,
 }: GenericEditPageProps) {
   const { config, update } = useEntityOperations(entityName);
   const [form, setForm] = React.useState<any>(null);
@@ -42,31 +32,17 @@ export default function GenericEditPage({
   });
 
   const handleSubmit = async (value: any) => {
-    console.log("XXXXXXXXXXXXXXXXXXXX", value);
     const result = await update(entityId, value);
-    // Pas de redirection automatique pour permettre de continuer l'édition
   };
 
-  const actions: Action[] = [
-    {
-      title: "Sauvegarder",
-      icon: <Save />,
-      type: "saveAction",
-      href: getEntityRoute(entityName),
-      action: () => {
-        if (form) {
-          console.log("Submitting form....................", form);
-          form.handleSubmit();
-        }
-      },
-    },
-    {
-      title: "Annuler",
-      icon: <X />,
-      type: "url",
-      href: getEntityViewRoute(entityName, entityId),
-    },
-  ];
+  // Utiliser le hook pour gérer les actions
+  const actions = useEntityActions("edit", entityName, entityId, form, {
+    useDefaultActions,
+    additionalActions,
+    customActions,
+    onActionsReady,
+    onDelete,
+  });
 
   return (
     <div className="">

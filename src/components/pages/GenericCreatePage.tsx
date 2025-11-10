@@ -1,22 +1,16 @@
 "use client";
 import { ContentPage } from "@/components/layouts/page-layout";
-import { Save, X } from "lucide-react";
+import { getEntityRoute } from "@/lib/actions.utils";
 import { route } from "@/lib/route";
-import { Action } from "@/types/actions";
 import React from "react";
 import { useRouter } from "next/navigation";
 import { authStore } from "@/app/store/auth.store";
 import FormGeneric from "@/components/forms/FormGeneric";
 import { useEntityOperations } from "@/hooks/useEntityOperations";
+import { useEntityActions } from "@/hooks/useEntityActions";
+import { ActionProps } from "@/lib/actions.utils";
 
-// Helper pour gérer les routes dynamiquement
-const getEntityRoute = (entityName: string): any => {
-  if (entityName === "locataire") return route("locataire");
-  if (entityName === "logement") return route("logement");
-  return "/";
-};
-
-interface GenericCreatePageProps {
+interface GenericCreatePageProps extends ActionProps {
   entityName: string; // "locataire", "logement", "paiement", etc.
   additionalData?: Record<string, any>; // Données supplémentaires (ex: proprietaireId)
 }
@@ -24,6 +18,11 @@ interface GenericCreatePageProps {
 export default function GenericCreatePage({
   entityName,
   additionalData = {},
+  useDefaultActions = true,
+  additionalActions,
+  customActions,
+  onActionsReady,
+  onDelete,
 }: GenericCreatePageProps) {
   const user = authStore((state: any) => state.user);
   const router = useRouter();
@@ -58,26 +57,20 @@ export default function GenericCreatePage({
     }
   };
 
-  const actions: Action[] = [
+  // Utiliser le hook pour gérer les actions
+  const actions = useEntityActions(
+    "create",
+    entityName,
+    undefined,
+    form,
     {
-      title: "Sauvegarder",
-      icon: <Save />,
-      type: "saveAction",
-      href: getEntityRoute(entityName),
-      action: () => {
-        console.log("Submitting form....................", form);
-        if (form) {
-          form.handleSubmit();
-        }
-      },
-    },
-    {
-      title: "Annuler",
-      icon: <X />,
-      type: "url",
-      href: getEntityRoute(entityName),
-    },
-  ];
+      useDefaultActions,
+      additionalActions,
+      customActions,
+      onActionsReady,
+      onDelete,
+    }
+  );
 
   return (
     <div className="">

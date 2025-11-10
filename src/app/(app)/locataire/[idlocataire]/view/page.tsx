@@ -1,5 +1,5 @@
 import React from "react";
-import ViewLocatairePage from "../../_components/pages/ViewLocatairePage";
+import GenericViewPage from "@/components/pages/GenericViewPage";
 import QueryProvider from "@/components/provider";
 
 export default async function Page({
@@ -8,5 +8,15 @@ export default async function Page({
   params: Promise<{ idlocataire: string }>;
 }) {
   const { idlocataire } = await params;
-  return <ViewLocatairePage locataireId={idlocataire} />;
+  
+  return (
+    <QueryProvider>
+      <GenericViewPage 
+        entityName="locataire" 
+        entityId={idlocataire}
+        // Utilise les actions par défaut (View, Edit, Delete, Back)
+        useDefaultActions={true}
+      />
+    </QueryProvider>
+  );
 }

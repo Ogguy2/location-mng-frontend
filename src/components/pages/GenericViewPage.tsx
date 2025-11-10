@@ -1,28 +1,13 @@
 "use client";
 import { ContentPage } from "@/components/layouts/page-layout";
-import { CornerDownLeft, Pencil, Trash } from "lucide-react";
-import { route } from "@/lib/route";
-import { Action } from "@/types/actions";
+import { getEntityRoute } from "@/lib/actions.utils";
 import { useLoc } from "@/components/hooks/useLoc";
 import FormGeneric from "@/components/forms/FormGeneric";
 import { useEntityOperations } from "@/hooks/useEntityOperations";
+import { useEntityActions } from "@/hooks/useEntityActions";
+import { ActionProps } from "@/lib/actions.utils";
 
-// Helper pour gérer les routes dynamiquement
-const getEntityRoute = (entityName: string): any => {
-  if (entityName === "locataire") return route("locataire");
-  if (entityName === "logement") return route("logement");
-  return "/";
-};
-
-const getEntityEditRoute = (entityName: string, id: string): any => {
-  if (entityName === "locataire")
-    return route("locataire.custom", { idlocataire: id });
-  if (entityName === "logement")
-    return route("logement.custom", { logementId: id });
-  return "/";
-};
-
-interface GenericViewPageProps {
+interface GenericViewPageProps extends ActionProps {
   entityName: string; // "locataire", "logement", etc.
   entityId: string;
 }
@@ -30,6 +15,11 @@ interface GenericViewPageProps {
 export default function GenericViewPage({
   entityName,
   entityId,
+  useDefaultActions = true,
+  additionalActions,
+  customActions,
+  onActionsReady,
+  onDelete,
 }: GenericViewPageProps) {
   const { config, remove } = useEntityOperations(entityName);
 
@@ -39,31 +29,28 @@ export default function GenericViewPage({
     endpoint: `${config.endpoint}/${entityId}`,
   });
 
-  const actions: Action[] = [
+  const handleDelete = async () => {
+    const result = await remove(entityId);
+    if (result.success) {
+      // Optionnellement rediriger vers la liste après suppression
+      window.location.href = getEntityRoute(entityName);
+    }
+  };
+
+  // Utiliser le hook pour gérer les actions
+  const actions = useEntityActions(
+    "view",
+    entityName,
+    entityId,
+    undefined,
     {
-      title: "Retour à la liste",
-      icon: <CornerDownLeft />,
-      type: "url",
-      href: getEntityRoute(entityName),
-    },
-    {
-      title: `Éditer ${config.displayName.toLowerCase()}`,
-      icon: <Pencil />,
-      type: "url",
-      href: getEntityEditRoute(entityName, entityId),
-    },
-    {
-      title: `Supprimer ${config.displayName.toLowerCase()}`,
-      icon: <Trash />,
-      type: "confirm",
-      href: "#",
-      action: async () => {
-        await remove(entityId);
-        // Optionnellement rediriger vers la liste après suppression
-        // window.location.href = getEntityRoute(entityName);
-      },
-    },
-  ];
+      useDefaultActions,
+      additionalActions,
+      customActions,
+      onActionsReady,
+      onDelete: onDelete || handleDelete,
+    }
+  );
 
   return (
     <div className="">

@@ -24,7 +24,6 @@ export default async function RootLayout({
   // console.log("Rendering RootLayout", cookies());
   const cookie = (await cookies()).get("session")?.value;
   const { user } = await decrypt(cookie);
-  console.log("Session cookie:", user);
   return (
     <html lang="en">
       <body className={`  antialiased`}>
@@ -44,5 +43,3 @@ export default async function RootLayout({
     </html>
   );
 }
-
-
