@@ -98,9 +98,7 @@ const renderField = (
     // En mode view, on affiche simplement la valeur
     const value = initialData?.[field.name];
     console.log(initialData);
-    return (
-      <InputShowDate name={field.name} data={value} type={field.type} />
-    );
+    return <InputShowDate name={field.name} data={value} type={field.type} />;
     // <Input
     //   id={field.name}
     //   name={field.name}
@@ -132,6 +130,19 @@ export default function FormGeneric({
     {}
   );
 
+  // Fonction utilitaire pour filtrer initialData selon les champs de configuration
+  const filterInitialData = (data: Record<string, any> | null) => {
+    if (!data) return null;
+
+    const filteredData: Record<string, any> = {};
+    entityConfig.fields.forEach((field) => {
+      if (data.hasOwnProperty(field.name)) {
+        filteredData[field.name] = data[field.name];
+      }
+    });
+    return filteredData;
+  };
+
   // Générer les valeurs par défaut
   const defaultValues =
     mode === "create"
@@ -148,7 +159,7 @@ export default function FormGeneric({
               : "";
           return acc;
         }, {} as Record<string, any>)
-      : initialData || null;
+      : filterInitialData(initialData || null);
 
   // Générer le schéma de validation dynamiquement
   const formSchema = generateZodSchema(entityConfig.fields);

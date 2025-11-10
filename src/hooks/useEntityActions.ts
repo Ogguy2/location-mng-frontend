@@ -56,8 +56,8 @@ export const useEntityActions = (
     }
 
     // Si callback personnalisé, l'utiliser
-    if (actionProps.onActionsReady) {
-      return actionProps.onActionsReady(defaultActions, form);
+    if (actionProps.actionReady) {
+      return actionProps.actionReady(defaultActions, form);
     }
 
     // Si actions par défaut désactivées, retourner seulement les additionnelles

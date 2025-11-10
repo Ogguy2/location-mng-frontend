@@ -1,16 +1,41 @@
+"use client";
 import React from "react";
-import QueryProvider from "@/components/provider";
-import NewLocataire from "../_components/pages/NewLogement";
+import GenericCreatePage from "@/components/pages/GenericCreatePage";
+import { Settings, UserPlus } from "lucide-react";
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ idlocataire: string }>;
-}) {
-  const { idlocataire } = await params;
+const dd = () => {
+  return;
+}; // Pour éviter l'avertissement d'importation inutilisée
+
+export default function Page() {
   return (
-    <QueryProvider>
-      <NewLocataire  />
-    </QueryProvider>
+    <GenericCreatePage
+      entityName="logement"
+      actionReady={(defaultActions, form) => {
+        // Modifier les actions par défaut
+        const customizedActions = defaultActions.map((action) => {
+          if (action.title === "Enregistrer") {
+            return {
+              ...action,
+              title: "Créer un logement",
+              icon: <UserPlus />,
+            };
+          }
+          return action;
+        });
+
+        // Ajouter une action spécifique
+        customizedActions.push({
+          title: "Avancé",
+          icon: <Settings />,
+          type: "custom",
+          action: () => {
+            console.log("Configuration avancée du locataire");
+          },
+        });
+
+        return customizedActions;
+      }}
+    />
   );
 }

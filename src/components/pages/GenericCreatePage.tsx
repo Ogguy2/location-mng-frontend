@@ -21,7 +21,7 @@ export default function GenericCreatePage({
   useDefaultActions = true,
   additionalActions,
   customActions,
-  onActionsReady,
+  actionReady,
   onDelete,
 }: GenericCreatePageProps) {
   const user = authStore((state: any) => state.user);
@@ -67,7 +67,7 @@ export default function GenericCreatePage({
       useDefaultActions,
       additionalActions,
       customActions,
-      onActionsReady,
+      actionReady,
       onDelete,
     }
   );

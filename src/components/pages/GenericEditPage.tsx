@@ -19,12 +19,11 @@ export default function GenericEditPage({
   useDefaultActions = true,
   additionalActions,
   customActions,
-  onActionsReady,
+  actionReady,
   onDelete,
 }: GenericEditPageProps) {
   const { config, update } = useEntityOperations(entityName);
   const [form, setForm] = React.useState<any>(null);
-
   // Récupérer les données de l'entité
   const { data } = useLoc({
     key: `${entityName}-${entityId}`,
@@ -40,7 +39,7 @@ export default function GenericEditPage({
     useDefaultActions,
     additionalActions,
     customActions,
-    onActionsReady,
+    actionReady,
     onDelete,
   });
 

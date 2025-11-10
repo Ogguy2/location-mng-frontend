@@ -8,5 +8,11 @@ interface ViewLocatairePageProps {
 export default function ViewLocatairePage({
   locataireId,
 }: ViewLocatairePageProps) {
-  return <GenericViewPage entityName="locataire" entityId={locataireId} />;
+  return (
+    <GenericViewPage
+      entityName="locataire"
+      entityId={locataireId}
+      useDefaultActions={true}
+    />
+  );
 }

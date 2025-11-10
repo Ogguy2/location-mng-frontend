@@ -81,7 +81,7 @@ La nouvelle architecture d'actions permet de gérer les boutons d'action dans `C
 ```tsx
 <GenericCreatePage 
   entityName="locataire"
-  onActionsReady={(defaultActions, form) => {
+  actionReady={(defaultActions, form) => {
     // Modifier les actions par défaut
     const customizedActions = defaultActions.map(action => {
       if (action.title === "Enregistrer") {
@@ -228,7 +228,7 @@ interface Action {
 1. **Préférer les actions par défaut** quand c'est suffisant
 2. **Utiliser `additionalActions`** pour ajouter des fonctionnalités spécifiques
 3. **Réserver `customActions`** pour des cas très spéciaux nécessitant un contrôle total
-4. **Utiliser `onActionsReady`** pour des modifications dynamiques complexes
+4. **Utiliser `actionReady`** pour des modifications dynamiques complexes
 5. **Garder les actions cohérentes** visuellement avec le design system
 
 ## 🔧 Extension

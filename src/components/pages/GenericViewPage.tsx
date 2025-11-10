@@ -18,7 +18,7 @@ export default function GenericViewPage({
   useDefaultActions = true,
   additionalActions,
   customActions,
-  onActionsReady,
+  actionReady,
   onDelete,
 }: GenericViewPageProps) {
   const { config, remove } = useEntityOperations(entityName);
@@ -47,7 +47,7 @@ export default function GenericViewPage({
       useDefaultActions,
       additionalActions,
       customActions,
-      onActionsReady,
+      actionReady,
       onDelete: onDelete || handleDelete,
     }
   );

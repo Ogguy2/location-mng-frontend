@@ -19,6 +19,7 @@ export const useLoc = (endpoint: useLocProps) =>
         data: endpoint.method !== "GET" ? {} : undefined,
       });
       if (fetchSuccess(response.status)) {
+        console.log("Data fetched for key:", queryKey, response.data);
         return response.data;
       } else {
         throw new Error("Error fetching data");

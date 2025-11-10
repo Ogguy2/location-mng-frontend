@@ -115,7 +115,7 @@ export interface ActionProps {
   // Remplacer complètement les actions par défaut
   customActions?: Action[];
   // Callback pour personnaliser les actions par défaut
-  onActionsReady?: (defaultActions: Action[], form?: any) => Action[];
+  actionReady?: (defaultActions: Action[], form?: any) => Action[];
   // Callback pour la suppression (mode view)
   onDelete?: () => void;
 }

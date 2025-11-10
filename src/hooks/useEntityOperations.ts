@@ -6,7 +6,7 @@ import { toast } from "sonner";
 // Hook générique untuk CRUD operations
 export const useEntityOperations = (entityName: string) => {
   const config = ENTITY_CONFIGS[entityName];
-  
+
   if (!config) {
     throw new Error(`Configuration not found for entity: ${entityName}`);
   }
@@ -22,7 +22,9 @@ export const useEntityOperations = (entityName: string) => {
       toast.success(`${config.displayName} créé avec succès!`);
       return { success: true, data: response.data };
     } else {
-      toast.error(`Échec de la création du ${config.displayName.toLowerCase()}.`);
+      toast.error(
+        `Échec de la création du ${config.displayName.toLowerCase()}.`
+      );
       return { success: false, error: response };
     }
   };
@@ -38,7 +40,9 @@ export const useEntityOperations = (entityName: string) => {
       toast.success(`${config.displayName} mis à jour avec succès!`);
       return { success: true, data: response.data };
     } else {
-      toast.error(`Échec de la mise à jour du ${config.displayName.toLowerCase()}.`);
+      toast.error(
+        `Échec de la mise à jour du ${config.displayName.toLowerCase()}.`
+      );
       return { success: false, error: response };
     }
   };
@@ -53,7 +57,9 @@ export const useEntityOperations = (entityName: string) => {
       toast.success(`${config.displayName} supprimé avec succès!`);
       return { success: true };
     } else {
-      toast.error(`Échec de la suppression du ${config.displayName.toLowerCase()}.`);
+      toast.error(
+        `Échec de la suppression du ${config.displayName.toLowerCase()}.`
+      );
       return { success: false, error: response };
     }
   };
