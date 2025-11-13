@@ -87,10 +87,20 @@ const HeaderContent = ({ title, actions, crumb }: ContentPageHeaderProps) => {
       case "dialog":
         // Ouvre un modal (état à gérer via useState)
         setActionDefault(action);
-        actionDefault?.beforeAction && (await actionDefault.beforeAction());
+        if (action.beforeAction) {
+          await action.beforeAction();
+        }
+
+        let content = null;
+        if (typeof action.dialogContent === "function") {
+          content = await action.dialogContent();
+        } else {
+          content = action.dialogContent;
+        }
         setDialogTitle(action.title);
         setDialogDescription(action.description || "");
-        setContenDialog(action.dialogContent);
+        // setContenDialog(action.dialogContent);
+        setContenDialog(content);
         if (action.requiresConfirmation) {
           setIsDialogOpen(true);
         }
@@ -263,9 +273,10 @@ const DialogeWithContentForm = ({
           </DialogClose>
           <DialogClose asChild>
             <Button
-              onClick={() => {
-                onConfirm();
-                setOpen(false);
+              onClick={async () => {
+                const dd = await onConfirm();
+                console.log(dd, "dddddd");
+                // setOpen(false);
               }}
             >
               Valider
@@ -274,18 +285,6 @@ const DialogeWithContentForm = ({
         </DialogFooter>
       </DialogContent>
     </Dialog>
-    // <AlertDialog open={isOpen}>
-    //   <AlertDialogContent>
-    //     <AlertDialogHeader>
-    //       <AlertDialogTitle></AlertDialogTitle>
-    //       <AlertDialogDescription></AlertDialogDescription>
-    //     </AlertDialogHeader>
-    //     <AlertDialogFooter>
-    //       <AlertDialogCancel onClick={onClose}>Cancel</AlertDialogCancel>
-    //       <AlertDialogAction onClick={onConfirm}>Continue</AlertDialogAction>
-    //     </AlertDialogFooter>
-    //   </AlertDialogContent>
-    // </AlertDialog>
   );
 };
 

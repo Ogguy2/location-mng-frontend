@@ -16,7 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
-import { Locataire } from "@/types/app";
+import { Locataire, Logement } from "@/types/app";
 import { Action } from "@/types/actions";
 
 const columns: ColumnDef<Locataire>[] = [
@@ -25,8 +25,16 @@ const columns: ColumnDef<Locataire>[] = [
     header: "Nom complet",
   },
   {
-    accessorKey: "email",
-    header: "Email",
+    accessorKey: "totalDue",
+    header: "Loyer dû",
+  },
+  {
+    accessorKey: "logement",
+    header: "Logement",
+    cell: ({ cell }) => {
+      console.log(cell.getValue());
+      return cell.getValue<null | Logement>()?.description || "N/A";
+    },
   },
   {
     accessorKey: "startDate",

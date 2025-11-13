@@ -110,6 +110,7 @@ const renderField = (
     default:
       return (
         <InputCustomData
+          fieldAction={field}
           type={field.type}
           isInvalid={isInvalid}
           field={formField}
@@ -154,7 +155,7 @@ export default function FormGeneric({
               : field.type === "checkbox"
               ? false
               : field.type === "date"
-              ? null
+              ? new Date().toLocaleDateString()
               : "";
           return acc;
         }, {} as Record<string, any>)

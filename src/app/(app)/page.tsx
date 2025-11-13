@@ -1,152 +1,20 @@
 import { ContentPage } from "@/components/layouts/page-layout";
 import {
-  EllipsisVertical,
   FileSpreadsheet,
-  Pencil,
   Plus,
-  Trash,
 } from "lucide-react";
-import {
-  TableCaption,
-  TableHeader,
-  TableRow,
-  Table,
-  TableHead,
-  TableBody,
-  TableCell,
-} from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 export default function Page() {
-  interface Action {
-    title: string;
-    icon: React.ReactNode;
-  }
-  const actions: Action[] = [
-    {
-      icon: <Plus />,
-      title: "Nouvel enregistrement",
-    },
-    {
-      icon: <FileSpreadsheet />,
-      title: "Exporter",
-    },
-  ];
+
   return (
     <div className="">
       <ContentPage>
-        {/* Header page with action and crumb */}
-        <ContentPage.Header title="Locataire" actions={actions} />
-        {/* Body page with content an table and other */}
-        <ContentPage.Body>
-          <DefaultTable />
-        </ContentPage.Body>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus
+        consequatur, autem similique sunt, ex eum quibusdam doloribus numquam
+        deserunt ipsa repudiandae explicabo odit harum? Id quisquam tempora
+        rerum eos ratione.
       </ContentPage>
     </div>
   );
 }
 
-interface DefaultTableProps {
-  // Define any props needed for the table
-  columns: string[];
-  data: any[];
-}
-
-const DefaultTable = () => {
-  const datas = [
-    {
-      invoice: "INV001",
-      status: "Paid",
-      method: "Credit Card",
-      amount: "$250.00",
-    },
-    {
-      invoice: "INV002",
-      status: "Pending",
-      method: "PayPal",
-      amount: "$150.00",
-    },
-    {
-      invoice: "INV003",
-      status: "Overdue",
-      method: "Bank Transfer",
-      amount: "$300.00",
-    },
-    {
-      invoice: "INV001",
-      status: "Paid",
-      method: "Credit Card",
-      amount: "$250.00",
-    },
-    {
-      invoice: "INV002",
-      status: "Pending",
-      method: "PayPal",
-      amount: "$150.00",
-    },
-    {
-      invoice: "INV003",
-      status: "Overdue",
-      method: "Bank Transfer",
-      amount: "$300.00",
-    },
-    {
-      invoice: "INV001",
-      status: "Paid",
-      method: "Credit Card",
-      amount: "$250.00",
-    },
-    {
-      invoice: "INV002",
-      status: "Pending",
-      method: "PayPal",
-      amount: "$150.00",
-    },
-    {
-      invoice: "INV003",
-      status: "Overdue",
-      method: "Bank Transfer",
-      amount: "$300.00",
-    },
-  ];
-  return (
-    <Table className="w-full ">
-      <TableHeader>
-        <TableRow className="font-bold ">
-          <TableHead className="font-bold">Invoice</TableHead>
-          <TableHead className="font-bold">Status</TableHead>
-          <TableHead className="font-bold">Method</TableHead>
-          <TableHead className="text-right">Amount</TableHead>
-          <TableHead className="text-right">Actions</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {datas.map((data, index) => (
-          <TableRow key={index}>
-            <TableCell className="font-medium">{data.invoice}</TableCell>
-            <TableCell>{data.status}</TableCell>
-            <TableCell>{data.method}</TableCell>
-            <TableCell className="text-right">{data.amount}</TableCell>
-            <TableCell className="text-right">
-              <Button size={"lg"} variant={"ghost"}>
-                <Pencil />
-                Editer
-              </Button>
-              {/* Delete */}
-              <Button size={"lg"} variant="destructive" className="ml-2">
-                <Trash />
-                Supprimer
-              </Button>
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  );
-};

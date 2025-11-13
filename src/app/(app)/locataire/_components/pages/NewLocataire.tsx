@@ -19,18 +19,6 @@ export default function NewLocataire() {
           }
           return action;
         });
-
-        // Ajouter une action spécifique
-        customizedActions.push({
-          title: "Avancé",
-          icon: <Settings />,
-          type: "custom",
-          action: () => {
-            console.log("Configuration avancée du locataire");
-            // Logique pour paramétrage avancé
-          },
-        });
-
         return customizedActions;
       }}
     />

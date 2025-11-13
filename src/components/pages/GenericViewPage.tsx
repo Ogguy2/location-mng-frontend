@@ -38,19 +38,13 @@ export default function GenericViewPage({
   };
 
   // Utiliser le hook pour gérer les actions
-  const actions = useEntityActions(
-    "view",
-    entityName,
-    entityId,
-    undefined,
-    {
-      useDefaultActions,
-      additionalActions,
-      customActions,
-      actionReady,
-      onDelete: onDelete || handleDelete,
-    }
-  );
+  const actions = useEntityActions("view", entityName, entityId, undefined, {
+    useDefaultActions,
+    additionalActions,
+    customActions,
+    actionReady,
+    onDelete: onDelete || handleDelete,
+  });
 
   return (
     <div className="">

@@ -9,30 +9,55 @@ import { ChevronDownIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import React from "react";
 import { Switch } from "../ui/switch";
-
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 interface InputShowDateProps {
   name: string;
   data: any;
   type: string;
 }
 export const InputShowDate = ({ name, data, type }: InputShowDateProps) => {
+  const date = type == "date" ? new Date(data) : undefined;
   return (
     <>
-      {data !== undefined && data !== null  && type === "checkbox" && (
-
+      {/*  */}
+      {data !== undefined && data !== null && type === "checkbox" && (
         <div className=" h-11 flex items-center gap-2">
           <Switch checked={data} disabled={true} />
         </div>
       )}
-      {data !== undefined && data !== null && type !== "checkbox" && (
-        <Input
-          id={name}
-          name={name}
-          type={type}
-          disabled={true}
-          autoComplete="off"
-          value={data}
-        />
+      {data !== undefined &&
+        data !== null &&
+        ["text", "email", "tel"].includes(type) && (
+          <>
+            <Input
+              id={name}
+              name={name}
+              type={type}
+              disabled={true}
+              autoComplete="off"
+              value={data}
+            />
+          </>
+        )}
+      {data !== undefined && data !== null && type == "date" && (
+        <>
+          <Button
+            disabled={true}
+            variant="outline"
+            id="date"
+            className="w-48 justify-between font-normal"
+          >
+            {date?.toLocaleDateString()}
+          </Button>
+        </>
       )}
       {data == undefined && (
         <div>
@@ -45,13 +70,36 @@ export const InputShowDate = ({ name, data, type }: InputShowDateProps) => {
 
 export const InputCustomData = (props) => {
   // Manage date type
-  const date = props.field.state.value
-    ? new Date(props.field.state.value)
-    : undefined;
+
+  // const [date, setDate] = React.useState<string | null>(
+  //   new Date().toLocaleDateString()
+  // );
   const [open, setOpen] = React.useState(false);
 
-  // Manage checkbox type
-  const value = props.field.state;
+  // React.useEffect(() => {
+  //   if (props.type == "date" && props.field.state.value) {
+  //     const parsedDate = new Date(props.field.state.value);
+  //     setDate(parsedDate.toLocaleDateString());
+  //   }
+  // }, [date]);
+
+  // // Manage select options if type is select and options is a function
+  // const [selectOptions, setSelectOptions] = React.useState<any[]>([]);
+  // React.useEffect(() => {
+  //   const fetchOptions = async () => {
+  //     if (props.type === "select") {
+  //       if (typeof props.fieldAction.options === "function") {
+  //         const options = await props.fieldAction.options();
+  //         setSelectOptions(options);
+  //       } else if (Array.isArray(props.fieldAction.options)) {
+  //         setSelectOptions(props.fieldAction.options);
+  //       }
+  //       console.log("Select options:", selectOptions);
+
+  //     }
+  //   };
+  //   fetchOptions();
+  // }, [props.fieldAction.options]);
 
   return (
     <>
@@ -74,19 +122,21 @@ export const InputCustomData = (props) => {
               id="date"
               className="w-48 justify-between font-normal"
             >
-              {date?.toLocaleDateString()}
+              {props.field.state.value}
+              {/* {date?.toLocaleDateString()} */}
+              {/* {date} */}
               <ChevronDownIcon />
             </Button>
           </PopoverTrigger>
           <PopoverContent>
             <Calendar
               mode="single"
-              selected={date}
+              selected={props.field.state.value}
               captionLayout="dropdown"
-              onSelect={(date) => {
-                setOpen(false);
-                props.field.handleChange(date?.toLocaleDateString());
-              }}
+              // onSelect={(date) => {
+              //   setOpen(false);
+              //   props.field.handleChange(date?.toLocaleDateString());
+              // }}
             />
           </PopoverContent>
         </Popover>
@@ -111,6 +161,32 @@ export const InputCustomData = (props) => {
           aria-invalid={props.isInvalid}
           autoComplete="on"
         />
+      )}
+      {props.type == "select" && (
+        <>
+          {props.field.state.value}
+          {/* <Select
+            value={props.field.state.value}
+            onValueChange={(e) => props.field.handleChange(e)}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select a fruit" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Fruits</SelectLabel>
+                {selectOptions.map((option: any, index: number) => (
+                    <SelectItem
+                      key={index}
+                      value={option[props.fieldAction.optionKey]}
+                    >
+                      {option[props.fieldAction.optionLabel]}
+                    </SelectItem>
+                  ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select> */}
+        </>
       )}
       {
         <FieldError

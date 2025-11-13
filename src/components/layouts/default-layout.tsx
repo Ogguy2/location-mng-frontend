@@ -41,12 +41,7 @@ export const AppSidebar = () => {
       url: route("logement"),
       icon: Home,
     },
-    // User
-    {
-      title: "Utilisateurs",
-      url: "#",
-      icon: Settings,
-    },
+   
   ];
 
   const path = usePathname();

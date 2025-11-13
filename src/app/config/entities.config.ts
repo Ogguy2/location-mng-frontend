@@ -1,8 +1,20 @@
+import getData from "@/lib/getData";
+import { fetchSuccess } from "../constants/httpCode";
+import { toast } from "sonner";
+
 // Configuration générique pour toutes les entités
 export interface FieldConfig {
   name: string;
   label: string;
-  type: "text" | "email" | "tel" | "date" | "number" | "textarea" | "checkbox";
+  type:
+    | "text"
+    | "email"
+    | "tel"
+    | "date"
+    | "number"
+    | "textarea"
+    | "checkbox"
+    | "select";
   validation?: {
     required?: boolean;
     min?: number;
@@ -12,6 +24,10 @@ export interface FieldConfig {
   };
   placeholder?: string;
   defaultValue?: any;
+  options?: (() => Promise<any[]>) | any[]; // Pour les champs de type "select"
+  optionKey?: string; // Clé pour la valeur de l'option
+  optionLabel?: string; // Clé pour le label de l'option
+  default?: any;
 }
 
 export interface EntityConfig {
@@ -56,6 +72,30 @@ export const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         label: "Date de fin du bail",
         type: "date",
       },
+      // {
+      //   name: "logementId",
+      //   label: "Selectionné un logement",
+      //   type: "select",
+      //   options: async () => {
+      //     const reponse = await getData({
+      //       endpoint: `/logements`,
+      //       method: "GET",
+      //     });
+
+      //     let data = null;
+      //     if (fetchSuccess(reponse.status)) {
+      //       toast.success("Logements récupérés avec succès");
+      //       data = reponse.data.data;
+      //     } else {
+      //       toast.error("Échec de récupération des logements");
+      //       data = [];
+      //     }
+      //     return data;
+      //   },
+      //   optionKey: "id",
+      //   optionLabel: "description",
+      //   default: "",
+      // },
     ],
   },
 

@@ -10,7 +10,7 @@ export default function HydrateUser({ user }: HydrateUserProps) {
   const setUser = authStore((state) => state.setUser);
 
   useEffect(() => {
-    setUser(user);
+    setUser(user?.user);
   }, [user, setUser]);
 
   return null; // Ce composant ne rend rien

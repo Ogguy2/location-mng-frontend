@@ -22,11 +22,12 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const cookie = (await cookies()).get("session")?.value;
-  const { user } = await decrypt(cookie);
+  const session = await decrypt(cookie);
+
   return (
     <html lang="en">
       <body className={`  antialiased`}>
-        <HydrateUser user={user} />
+        <HydrateUser user={session} />
         <QueryProvider>
           <SidebarProvider>
             <AppSidebar />

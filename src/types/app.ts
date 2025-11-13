@@ -6,6 +6,7 @@ export interface Locataire {
   startDate: string | null;
   endDate: string | null;
   deletedAt: string | null;
+  totalDue: number;
   createdAt: string; // ISO date string
   updatedAt: string; // ISO date string
 }
@@ -32,6 +33,7 @@ export const defaultLocataire: Locataire = {
   phone: "",
   startDate: null,
   endDate: null,
+  totalDue: 0,
   deletedAt: null,
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),

@@ -15,7 +15,6 @@ interface fetchPrpos {
 }
 
 export const getData = async (endpoint: fetchPrpos): Promise<any> => {
-  const eventEmitter = new EventEmitter();
   const token = await verifyTokenExiste();
   return axios({
     method: endpoint.method || "GET",
@@ -35,6 +34,7 @@ export const getData = async (endpoint: fetchPrpos): Promise<any> => {
 };
 
 export const successResponse = async (res) => {
+  console.log("red", res.data);
   return {
     status: res.status,
     data: res.data,
@@ -49,6 +49,7 @@ const errorResponse = (err) => {
     };
   }
   if (err.status == 401) deleteUserSession(err.response);
+  console.log("err", err.response?.data);
   return {
     status: err.response?.status,
     error: err.response?.data,
@@ -66,4 +67,3 @@ const deleteUserSession = async (response: any) => {
 };
 
 export default getData;
-
