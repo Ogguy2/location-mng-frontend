@@ -71,35 +71,28 @@ export const InputShowDate = ({ name, data, type }: InputShowDateProps) => {
 export const InputCustomData = (props) => {
   // Manage date type
 
-  // const [date, setDate] = React.useState<string | null>(
-  //   new Date().toLocaleDateString()
-  // );
+  const [date, setDate] = React.useState<Date | null>(null);
   const [open, setOpen] = React.useState(false);
+  console.log("Field Action:", props.field.state.value);
+  React.useEffect(() => {
+    if (props.type == "date" && props.field.state.value) {
+      const parsedDate = props.field.state.value;
+      setDate(parsedDate);
+    }
+  }, [props.field.state.value]);
 
-  // React.useEffect(() => {
-  //   if (props.type == "date" && props.field.state.value) {
-  //     const parsedDate = new Date(props.field.state.value);
-  //     setDate(parsedDate.toLocaleDateString());
-  //   }
-  // }, [date]);
-
-  // // Manage select options if type is select and options is a function
-  // const [selectOptions, setSelectOptions] = React.useState<any[]>([]);
-  // React.useEffect(() => {
-  //   const fetchOptions = async () => {
-  //     if (props.type === "select") {
-  //       if (typeof props.fieldAction.options === "function") {
-  //         const options = await props.fieldAction.options();
-  //         setSelectOptions(options);
-  //       } else if (Array.isArray(props.fieldAction.options)) {
-  //         setSelectOptions(props.fieldAction.options);
-  //       }
-  //       console.log("Select options:", selectOptions);
-
-  //     }
-  //   };
-  //   fetchOptions();
-  // }, [props.fieldAction.options]);
+  const [selectOptions, setSelectOptions] = React.useState<any[] | null>(null);
+  React.useEffect(() => {
+    const fetchOptions = async () => {
+      if (props.type === "select") {
+        if (typeof props.fieldAction.options === "function" && !selectOptions) {
+          const options = await props.fieldAction.options();
+          setSelectOptions(options);
+        }
+      }
+    };
+    fetchOptions();
+  }, []);
 
   return (
     <>
@@ -122,8 +115,8 @@ export const InputCustomData = (props) => {
               id="date"
               className="w-48 justify-between font-normal"
             >
-              {props.field.state.value}
-              {/* {date?.toLocaleDateString()} */}
+              {/* {props.field.state.value.toLocaleDateString()} */}
+              {date?.toLocaleDateString("fr-FR")}
               {/* {date} */}
               <ChevronDownIcon />
             </Button>
@@ -133,10 +126,10 @@ export const InputCustomData = (props) => {
               mode="single"
               selected={props.field.state.value}
               captionLayout="dropdown"
-              // onSelect={(date) => {
-              //   setOpen(false);
-              //   props.field.handleChange(date?.toLocaleDateString());
-              // }}
+              onSelect={(date) => {
+                setOpen(false);
+                props.field.handleChange(date);
+              }}
             />
           </PopoverContent>
         </Popover>
@@ -164,8 +157,8 @@ export const InputCustomData = (props) => {
       )}
       {props.type == "select" && (
         <>
-          {props.field.state.value}
-          {/* <Select
+          {/* {props.field.state.value} */}
+          <Select
             value={props.field.state.value}
             onValueChange={(e) => props.field.handleChange(e)}
           >
@@ -175,7 +168,8 @@ export const InputCustomData = (props) => {
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>Fruits</SelectLabel>
-                {selectOptions.map((option: any, index: number) => (
+                {selectOptions &&
+                  selectOptions.map((option: any, index: number) => (
                     <SelectItem
                       key={index}
                       value={option[props.fieldAction.optionKey]}
@@ -185,7 +179,7 @@ export const InputCustomData = (props) => {
                   ))}
               </SelectGroup>
             </SelectContent>
-          </Select> */}
+          </Select>
         </>
       )}
       {

@@ -71,6 +71,7 @@ export const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         name: "endDate",
         label: "Date de fin du bail",
         type: "date",
+        defaultValue: new Date(),
       },
       // {
       //   name: "logementId",
@@ -81,16 +82,12 @@ export const ENTITY_CONFIGS: Record<string, EntityConfig> = {
       //       endpoint: `/logements`,
       //       method: "GET",
       //     });
-
-      //     let data = null;
       //     if (fetchSuccess(reponse.status)) {
-      //       toast.success("Logements récupérés avec succès");
-      //       data = reponse.data.data;
+      //       return reponse.data.data;
       //     } else {
       //       toast.error("Échec de récupération des logements");
-      //       data = [];
+      //       return [];
       //     }
-      //     return data;
       //   },
       //   optionKey: "id",
       //   optionLabel: "description",

@@ -98,13 +98,6 @@ const renderField = (
     // En mode view, on affiche simplement la valeur
     const value = initialData?.[field.name];
     return <InputShowDate name={field.name} data={value} type={field.type} />;
-    // <Input
-    //   id={field.name}
-    //   name={field.name}
-    //   disabled={true}
-    //   value={value || ""}
-    //   readOnly
-    // />
   }
   switch (field.type) {
     default:
@@ -142,11 +135,11 @@ export default function FormGeneric({
     });
     return filteredData;
   };
-
   // Générer les valeurs par défaut
   const defaultValues =
     mode === "create"
       ? entityConfig.fields.reduce((acc, field) => {
+          // console.log("Initial Data:", field);
           acc[field.name] =
             field.defaultValue !== undefined
               ? field.defaultValue
@@ -155,7 +148,7 @@ export default function FormGeneric({
               : field.type === "checkbox"
               ? false
               : field.type === "date"
-              ? new Date().toLocaleDateString()
+              ? (new Date())
               : "";
           return acc;
         }, {} as Record<string, any>)

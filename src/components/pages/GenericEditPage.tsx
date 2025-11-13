@@ -60,6 +60,7 @@ export default function GenericEditPage({
           title={`Modification du ${config.displayName.toLowerCase()}`}
           actions={actions}
         />
+        {JSON.stringify(data)}
         <ContentPage.Body className="">
           <FormGeneric
             entityConfig={config}
