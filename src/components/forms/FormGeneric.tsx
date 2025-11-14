@@ -95,9 +95,17 @@ const renderField = (
     formField.state.meta.isTouched && !formField.state.meta.isValid;
 
   if (mode === "view") {
-    // En mode view, on affiche simplement la valeur
-    const value = initialData?.[field.name];
-    return <InputShowDate name={field.name} data={value} type={field.type} />;
+    const value =
+      initialData?.[field.name] ||
+      (field.accessorKey && field.accessorKey(initialData));
+    return (
+      <InputShowDate
+        fieldAction={field}
+        name={field.name}
+        data={value}
+        type={field.type}
+      />
+    );
   }
   switch (field.type) {
     default:
@@ -139,7 +147,6 @@ export default function FormGeneric({
   const defaultValues =
     mode === "create"
       ? entityConfig.fields.reduce((acc, field) => {
-          // console.log("Initial Data:", field);
           acc[field.name] =
             field.defaultValue !== undefined
               ? field.defaultValue
@@ -148,11 +155,11 @@ export default function FormGeneric({
               : field.type === "checkbox"
               ? false
               : field.type === "date"
-              ? (new Date())
+              ? new Date()
               : "";
           return acc;
         }, {} as Record<string, any>)
-      : filterInitialData(initialData || null);
+      : initialData;
 
   // Générer le schéma de validation dynamiquement
   const formSchema = generateZodSchema(entityConfig.fields);

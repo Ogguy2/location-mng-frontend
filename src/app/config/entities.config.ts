@@ -24,6 +24,7 @@ export interface FieldConfig {
   };
   placeholder?: string;
   defaultValue?: any;
+  accessorKey?: ((value: any) => any); // Pour les champs avec une clé d'accès personnalisée
   options?: (() => Promise<any[]>) | any[]; // Pour les champs de type "select"
   optionKey?: string; // Clé pour la valeur de l'option
   optionLabel?: string; // Clé pour le label de l'option
@@ -73,26 +74,29 @@ export const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         type: "date",
         defaultValue: new Date(),
       },
-      // {
-      //   name: "logementId",
-      //   label: "Selectionné un logement",
-      //   type: "select",
-      //   options: async () => {
-      //     const reponse = await getData({
-      //       endpoint: `/logements`,
-      //       method: "GET",
-      //     });
-      //     if (fetchSuccess(reponse.status)) {
-      //       return reponse.data.data;
-      //     } else {
-      //       toast.error("Échec de récupération des logements");
-      //       return [];
-      //     }
-      //   },
-      //   optionKey: "id",
-      //   optionLabel: "description",
-      //   default: "",
-      // },
+      {
+        name: "logementId",
+        accessorKey: (value) =>{
+          return  value?.logement?.id
+        },
+        label: "Selectionné un logement",
+        type: "select",
+        options: async () => {
+          const reponse = await getData({
+            endpoint: `/logements`,
+            method: "GET",
+          });
+          if (fetchSuccess(reponse.status)) {
+            return reponse.data.data;
+          } else {
+            toast.error("Échec de récupération des logements");
+            return [];
+          }
+        },
+        optionKey: "id",
+        optionLabel: "description",
+        default: "",
+      },
     ],
   },
 

@@ -20,10 +20,10 @@ export default function EditLocatairePage({
           icon: <FileText />,
           type: "custom",
           action: () => {
-            console.log(
-              "Génération du contrat pour le locataire:",
-              locataireId
-            );
+            // console.log(
+            //   "Génération du contrat pour le locataire:",
+            //   locataireId
+            // );
             // Logique de génération de contrat
           },
         },
@@ -32,7 +32,7 @@ export default function EditLocatairePage({
           icon: <Send />,
           type: "custom",
           action: () => {
-            console.log("Envoi d'email au locataire:", locataireId);
+            // console.log("Envoi d'email au locataire:", locataireId);
             // Logique d'envoi d'email
           },
         },

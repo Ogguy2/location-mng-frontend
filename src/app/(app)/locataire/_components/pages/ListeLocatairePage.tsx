@@ -32,7 +32,6 @@ const columns: ColumnDef<Locataire>[] = [
     accessorKey: "logement",
     header: "Logement",
     cell: ({ cell }) => {
-      console.log(cell.getValue());
       return cell.getValue<null | Logement>()?.description || "N/A";
     },
   },

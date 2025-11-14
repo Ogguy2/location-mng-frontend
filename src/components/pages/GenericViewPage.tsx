@@ -32,7 +32,6 @@ export default function GenericViewPage({
   const handleDelete = async () => {
     const result = await remove(entityId);
     if (result.success) {
-      // Optionnellement rediriger vers la liste après suppression
       window.location.href = getEntityRoute(entityName);
     }
   };

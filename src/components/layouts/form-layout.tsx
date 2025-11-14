@@ -21,17 +21,51 @@ import {
 interface InputShowDateProps {
   name: string;
   data: any;
+  fieldAction: any;
   type: string;
 }
-export const InputShowDate = ({ name, data, type }: InputShowDateProps) => {
+export const InputShowDate = ({
+  name,
+  data,
+  type,
+  fieldAction,
+}: InputShowDateProps) => {
   const date = type == "date" ? new Date(data) : undefined;
+
+  const [selectOptions, setSelectOptions] = React.useState<any[] | null>(null);
+  React.useEffect(() => {
+    const fetchOptions = async () => {
+      if (type === "select") {
+        if (typeof fieldAction.options === "function" && !selectOptions) {
+          const options = await fieldAction.options();
+          setSelectOptions(options);
+        }
+      }
+    };
+    fetchOptions();
+  }, []);
   return (
     <>
-      {/*  */}
       {data !== undefined && data !== null && type === "checkbox" && (
         <div className=" h-11 flex items-center gap-2">
           <Switch checked={data} disabled={true} />
         </div>
+      )}
+
+      {data !== undefined && data !== null && type === "select" && (
+        <Select defaultValue={data} disabled>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select a fruit" />
+          </SelectTrigger>
+          <SelectContent>
+            {selectOptions &&
+              selectOptions.map((option: any, index: number) => (
+                <SelectItem key={index} value={option[fieldAction.optionKey]}>
+                  {option[fieldAction.optionLabel]}
+                </SelectItem>
+              ))}
+          </SelectContent>
+        </Select>
       )}
       {data !== undefined &&
         data !== null &&
@@ -71,16 +105,17 @@ export const InputShowDate = ({ name, data, type }: InputShowDateProps) => {
 export const InputCustomData = (props) => {
   // Manage date type
 
-  const [date, setDate] = React.useState<Date | null>(null);
+  const [date, setDate] = React.useState<Date | undefined>();
   const [open, setOpen] = React.useState(false);
-  console.log("Field Action:", props.field.state.value);
+
+  // Manage date
   React.useEffect(() => {
-    if (props.type == "date" && props.field.state.value) {
-      const parsedDate = props.field.state.value;
-      setDate(parsedDate);
+    if (props.type == "date") {
+      props.field.state.value && setDate(new Date(props.field.state.value));
     }
   }, [props.field.state.value]);
 
+  // Manage select options
   const [selectOptions, setSelectOptions] = React.useState<any[] | null>(null);
   React.useEffect(() => {
     const fetchOptions = async () => {
@@ -115,20 +150,18 @@ export const InputCustomData = (props) => {
               id="date"
               className="w-48 justify-between font-normal"
             >
-              {/* {props.field.state.value.toLocaleDateString()} */}
               {date?.toLocaleDateString("fr-FR")}
-              {/* {date} */}
               <ChevronDownIcon />
             </Button>
           </PopoverTrigger>
           <PopoverContent>
             <Calendar
               mode="single"
-              selected={props.field.state.value}
+              selected={date}
               captionLayout="dropdown"
               onSelect={(date) => {
                 setOpen(false);
-                props.field.handleChange(date);
+                props.field.handleChange(date?.toLocaleDateString("fr-FR"));
               }}
             />
           </PopoverContent>
@@ -157,8 +190,9 @@ export const InputCustomData = (props) => {
       )}
       {props.type == "select" && (
         <>
-          {/* {props.field.state.value} */}
+          {props.field.state.value}
           <Select
+            defaultValue={props.field.state.value}
             value={props.field.state.value}
             onValueChange={(e) => props.field.handleChange(e)}
           >
@@ -166,18 +200,15 @@ export const InputCustomData = (props) => {
               <SelectValue placeholder="Select a fruit" />
             </SelectTrigger>
             <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Fruits</SelectLabel>
-                {selectOptions &&
-                  selectOptions.map((option: any, index: number) => (
-                    <SelectItem
-                      key={index}
-                      value={option[props.fieldAction.optionKey]}
-                    >
-                      {option[props.fieldAction.optionLabel]}
-                    </SelectItem>
-                  ))}
-              </SelectGroup>
+              {selectOptions &&
+                selectOptions.map((option: any, index: number) => (
+                  <SelectItem
+                    key={index}
+                    value={option[props.fieldAction.optionKey]}
+                  >
+                    {option[props.fieldAction.optionLabel]}
+                  </SelectItem>
+                ))}
             </SelectContent>
           </Select>
         </>
