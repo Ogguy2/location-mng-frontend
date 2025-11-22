@@ -160,6 +160,7 @@ export const InputCustomData = (props) => {
               selected={date}
               captionLayout="dropdown"
               onSelect={(date) => {
+                console.log("Selected date:", date);
                 setOpen(false);
                 props.field.handleChange(date?.toLocaleDateString("fr-FR"));
               }}
