@@ -102,7 +102,7 @@ export const InputShowDate = ({
   );
 };
 
-export const InputCustomData = (props) => {
+export const InputCustomData = (props : any) => {
   // Manage date type
 
   const [date, setDate] = React.useState<Date | undefined>();
@@ -162,6 +162,7 @@ export const InputCustomData = (props) => {
               onSelect={(date) => {
                 console.log("Selected date:", date);
                 setOpen(false);
+                setDate(date || undefined);
                 props.field.handleChange(date?.toLocaleDateString("fr-FR"));
               }}
             />

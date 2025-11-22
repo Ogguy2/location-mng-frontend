@@ -11,7 +11,7 @@ const CREATED_CODE = 201;
 interface fetchPrpos {
   endpoint: string;
   data?: any;
-  method?: "GET" | "POST" | "PATCH" | "DELETE";
+  method?: any;
 }
 
 export const getData = async (endpoint: fetchPrpos): Promise<any> => {
@@ -33,7 +33,7 @@ export const getData = async (endpoint: fetchPrpos): Promise<any> => {
     });
 };
 
-export const successResponse = async (res) => {
+export const successResponse = async (res : any) => {
   console.log("red", res.data);
   return {
     status: res.status,
@@ -41,7 +41,7 @@ export const successResponse = async (res) => {
   };
 };
 
-const errorResponse = (err) => {
+const errorResponse = (err : any) => {
   if (err.code === "ECONNREFUSED") {
     return {
       status: 503,
@@ -58,8 +58,8 @@ const errorResponse = (err) => {
 
 const verifyTokenExiste = async () => {
   const cookie = (await cookies()).get("session")?.value;
-  const { user } = await decrypt(cookie);
-  return user?.access_token;
+  const session = await decrypt(cookie);
+  return (session?.user as any)?.access_token;
 };
 
 const deleteUserSession = async (response: any) => {

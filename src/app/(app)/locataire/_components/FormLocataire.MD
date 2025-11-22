@@ -137,6 +137,8 @@ export default function FormLocataire({
                             <InputShowDate
                               name={fieldLocataire.name}
                               data={initialData as any}
+                              // fieldAction={field}
+                              // type={fieldLocataire.type}
                             />
                           ) : (
                             <InputCustomData

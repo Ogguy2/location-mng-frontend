@@ -3,16 +3,13 @@ import axios from "axios";
 import { redirect } from "next/navigation";
 import { createSession } from "../libs/session";
 import {
-  API_BASE_URL,
   UNAUTHENTICATED,
   UNAUTHORIRED_CODE,
 } from "../constants/httpCode";
 import { route } from "@/lib/route";
 import { authStore } from "../store/auth.store";
-// import { createSession } from "@/app/libs/session";
-// import { UNAUTHORIRED_CODE, VALIDATION_CODE } from "@/libs/contants";
-// import { emitServerErrorEvent } from "../libs/dd";
-export const signUp = async (state, formData) => {
+
+export const signUp = async (state : any, formData : any) => {
   // 1 - Validation du formulaire
   const SignupFormSchema = z.object({
     email: z.email().max(100),

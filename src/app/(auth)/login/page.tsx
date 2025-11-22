@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 
 const Page = () => {
   const [state, action, pending] = useActionState(signUp, undefined);
-  const [error, setErrors] = React.useState(state);
+  const [error, setErrors] = React.useState<typeof state | any> (state);
   const [password, setPassword] = React.useState("password123");
   const [email, setEmail] = React.useState("Maggie.Skiles@gmail.com");
 

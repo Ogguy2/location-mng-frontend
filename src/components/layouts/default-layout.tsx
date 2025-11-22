@@ -23,7 +23,7 @@ import { authStore } from "@/app/store/auth.store";
 // Menu items.
 
 export const AppSidebar = () => {
-  const store = authStore((state) => state.user);
+  const store = authStore((state : any) => state.user);
   const items = [
     {
       title: "Accueil",

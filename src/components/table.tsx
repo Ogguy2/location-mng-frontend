@@ -76,7 +76,7 @@ const DefaultTable = <TData, TValue>({
                   onClick={() => {
                     if (cell.column.id !== "action") {
                       const link = rowRoute(
-                        row.original["id"] as string | number
+                        (row.original as any).id as string | number
                       );
                       router.push(link);
                     }

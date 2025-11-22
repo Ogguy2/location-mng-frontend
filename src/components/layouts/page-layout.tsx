@@ -229,7 +229,7 @@ ContentPage.Body = BodyContent;
 //   onClose: () => void;
 //   onConfirm: () => void | undefined;
 // }
-const DialogConfirmation = ({ isOpen, onClose, onConfirm }) => {
+const DialogConfirmation = ({ isOpen, onClose, onConfirm } : any) => {
   return (
     <AlertDialog open={isOpen}>
       <AlertDialogContent>
@@ -256,7 +256,7 @@ const DialogeWithContentForm = ({
   description,
   dialogContent,
   setOpen,
-}) => {
+} : any) => {
   return (
     <Dialog open={isOpen}>
       <DialogContent className="sm:max-w-md">

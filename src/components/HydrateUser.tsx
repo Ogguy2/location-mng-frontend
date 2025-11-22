@@ -7,7 +7,7 @@ interface HydrateUserProps {
   user: any;
 }
 export default function HydrateUser({ user }: HydrateUserProps) {
-  const setUser = authStore((state) => state.setUser);
+  const setUser = authStore((state : any) => state.setUser);
 
   useEffect(() => {
     setUser(user?.user);

@@ -1,6 +1,6 @@
-import { Locataire } from "@/app/(app)/locataire/page";
 import { fetchSuccess } from "@/app/constants/httpCode";
-import getDate,  from "@/lib/getData";
+import getDate  from "@/lib/getData";
+import { Locataire } from "@/types/app";
 import React from "react";
 
 interface useLocataireProps {

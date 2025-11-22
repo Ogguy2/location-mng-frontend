@@ -161,7 +161,7 @@ export function route(name: AllRoutes, params: RouteParams = {}): string {
 }
 
 export function useRoute(
-  name: keyof typeof routes,
+  name: AllRoutes,
   params: RouteParams = {}
 ): string {
   return useMemo(() => route(name, params), [name, JSON.stringify(params)]);

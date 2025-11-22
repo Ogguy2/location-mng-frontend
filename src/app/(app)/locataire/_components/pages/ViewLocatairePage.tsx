@@ -138,7 +138,7 @@ export default function ViewLocatairePage({
                       ].map(
                         (
                           fieldConfig: {
-                            name: string;
+                            name: any;
                             label: string;
                             type: string;
                             options?: any[];
@@ -225,7 +225,7 @@ export default function ViewLocatairePage({
                         (
                           fieldAction: {
                             // name: "paidAt" | "amount" | "note";
-                            name: string;
+                            name: any;
                             label: string;
                             type: string;
                           },
