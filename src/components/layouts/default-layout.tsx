@@ -55,10 +55,10 @@ export const AppSidebar = () => {
           <LogoApp />
           <div className="">
             <div className="font-bold text-xl  text-foreground">
-              {store.fullName}
+              {store?.fullName}
             </div>
             <div className="text text-sm text-foreground">
-              {store.email}
+              {store?.email}
             </div>
           </div>
         </div>
