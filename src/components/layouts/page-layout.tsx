@@ -275,8 +275,7 @@ const DialogeWithContentForm = ({
             <Button
               onClick={async () => {
                 const dd = await onConfirm();
-                console.log(dd, "dddddd");
-                // setOpen(false);
+                setOpen(false);
               }}
             >
               Valider

@@ -3,9 +3,10 @@ import React from "react";
 import GenericCreatePage from "@/components/pages/GenericCreatePage";
 import { Settings, UserPlus } from "lucide-react";
 
-const dd = () => {
-  return;
-}; // Pour éviter l'avertissement d'importation inutilisée
+
+
+
+
 
 export default function Page() {
   return (
@@ -25,14 +26,14 @@ export default function Page() {
         });
 
         // Ajouter une action spécifique
-        customizedActions.push({
-          title: "Avancé",
-          icon: <Settings />,
-          type: "custom",
-          action: () => {
-            console.log("Configuration avancée du locataire");
-          },
-        });
+        // customizedActions.push({
+        //   title: "Avancé",
+        //   icon: <Settings />,
+        //   type: "custom",
+        //   action: () => {
+        //     console.log("Configuration avancée du locataire");
+        //   },
+        // });
 
         return customizedActions;
       }}

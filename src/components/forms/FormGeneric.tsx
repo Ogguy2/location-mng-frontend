@@ -93,11 +93,10 @@ const renderField = (
 ) => {
   const isInvalid =
     formField.state.meta.isTouched && !formField.state.meta.isValid;
-
-  if (mode === "view") {
     const value =
-      initialData?.[field.name] ||
-      (field.accessorKey && field.accessorKey(initialData));
+        initialData?.[field.name] ??
+        (field.accessorKey && field.accessorKey(initialData));
+  if (mode === "view") {
     return (
       <InputShowDate
         fieldAction={field}
@@ -113,6 +112,7 @@ const renderField = (
         <InputCustomData
           fieldAction={field}
           type={field.type}
+          value={value}
           isInvalid={isInvalid}
           field={formField}
         />

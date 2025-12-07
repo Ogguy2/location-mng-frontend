@@ -87,103 +87,103 @@ export default function ViewLocatairePage({
           const customizedActions = defaultActions.map((action) => {
             return action;
           });
-          customizedActions.push({
-            icon: <Link />,
-            title: "Affecté un logement",
-            description: "Veiller faire la sélection du logement",
-            type: "dialog",
-            initialValues: {
-              logementId: "",
-            },
-            beforeAction: () => {
-              formLogementAssignMent.reset();
-            },
-            action: () => {
-              formLogementAssignMent.handleSubmit({});
-            },
-            requiresConfirmation: true,
-            dialogContent: async () => {
-              const reponse = await getData({
-                endpoint: `/logements`,
-                method: "GET",
-              });
-
-              let data = null;
-              if (fetchSuccess(reponse.status)) {
-                toast.success("Logements récupérés avec succès");
-                data = reponse.data.data;
-              } else {
-                toast.error("Échec de récupération des logements");
-                data = [];
-              }
-              return (
-                <div>
-                  <form
-                    id={"logement-assign-form"}
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                    }}
-                  >
-                    <FieldGroup className="grid">
-                      {[
-                        {
-                          name: "logementId",
-                          label: "Logement à affecter",
-                          type: "select",
-                          options: data || [],
-                          optionKey: "id",
-                          optionLabel: "description",
-                          default: "",
-                        },
-                      ].map(
-                        (
-                          fieldConfig: {
-                            name: any;
-                            label: string;
-                            type: string;
-                            options?: any[];
-                            optionKey?: any;
-                            optionLabel?: any;
-                            default: any;
-                          },
-                          index: number
-                        ) => {
-                          return (
-                            <React.Fragment key={fieldConfig.name}>
-                              <formLogementAssignMent.Field
-                                name={fieldConfig.name}
-                                children={(field) => {
-                                  const isInvalid =
-                                    field.state.meta.isTouched &&
-                                    !field.state.meta.isValid;
-                                  return (
-                                    <Field>
-                                      <FieldLabel
-                                        htmlFor={fieldConfig.name}
-                                        className="font-semibold"
-                                      >
-                                        {fieldConfig.label}
-                                      </FieldLabel>
-                                      <InputCustomData
-                                        fieldAction={fieldConfig}
-                                        type={fieldConfig.type}
-                                        isInvalid={isInvalid}
-                                        field={field}
-                                      />
-                                    </Field>
-                                  );
-                                }}
-                              />
-                            </React.Fragment>
-                          );
-                        }
-                      )}
-                    </FieldGroup>
-                  </form>
-                </div>
-              );
-            },
-          });
+          // customizedActions.push({
+          //   icon: <Link />,
+          //   title: "Affecté un logement",
+          //   description: "Veiller faire la sélection du logement",
+          //   type: "dialog",
+          //   initialValues: {
+          //     logementId: "",
+          //   },
+          //   beforeAction: () => {
+          //     formLogementAssignMent.reset();
+          //   },
+          //   action: () => {
+          //     formLogementAssignMent.handleSubmit({});
+          //   },
+          //   requiresConfirmation: true,
+          //   dialogContent: async () => {
+          //     const reponse = await getData({
+          //       endpoint: `/logements`,
+          //       method: "GET",
+          //     });
+          //
+          //     let data = null;
+          //     if (fetchSuccess(reponse.status)) {
+          //       toast.success("Logements récupérés avec succès");
+          //       data = reponse.data.data;
+          //     } else {
+          //       toast.error("Échec de récupération des logements");
+          //       data = [];
+          //     }
+          //     return (
+          //       <div>
+          //         <form
+          //           id={"logement-assign-form"}
+          //           onSubmit={(e) => {
+          //             e.preventDefault();
+          //           }}
+          //         >
+          //           <FieldGroup className="grid">
+          //             {[
+          //               {
+          //                 name: "logementId",
+          //                 label: "Logement à affecter",
+          //                 type: "select",
+          //                 options: data || [],
+          //                 optionKey: "id",
+          //                 optionLabel: "description",
+          //                 default: "",
+          //               },
+          //             ].map(
+          //               (
+          //                 fieldConfig: {
+          //                   name: any;
+          //                   label: string;
+          //                   type: string;
+          //                   options?: any[];
+          //                   optionKey?: any;
+          //                   optionLabel?: any;
+          //                   default: any;
+          //                 },
+          //                 index: number
+          //               ) => {
+          //                 return (
+          //                   <React.Fragment key={fieldConfig.name}>
+          //                     <formLogementAssignMent.Field
+          //                       name={fieldConfig.name}
+          //                       children={(field) => {
+          //                         const isInvalid =
+          //                           field.state.meta.isTouched &&
+          //                           !field.state.meta.isValid;
+          //                         return (
+          //                           <Field>
+          //                             <FieldLabel
+          //                               htmlFor={fieldConfig.name}
+          //                               className="font-semibold"
+          //                             >
+          //                               {fieldConfig.label}
+          //                             </FieldLabel>
+          //                             <InputCustomData
+          //                               fieldAction={fieldConfig}
+          //                               type={fieldConfig.type}
+          //                               isInvalid={isInvalid}
+          //                               field={field}
+          //                             />
+          //                           </Field>
+          //                         );
+          //                       }}
+          //                     />
+          //                   </React.Fragment>
+          //                 );
+          //               }
+          //             )}
+          //           </FieldGroup>
+          //         </form>
+          //       </div>
+          //     );
+          //   },
+          // });
           customizedActions.push({
             icon: <Banknote />,
             title: "Effectuer un paiement",

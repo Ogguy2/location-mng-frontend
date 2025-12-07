@@ -12,7 +12,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Logo } from "@/app/(auth)/login/page";
+import { LogoApp } from "@/app/(auth)/login/page";
 import { Button } from "../ui/button";
 import { route } from "@/lib/route";
 import { usePathname } from "next/navigation";
@@ -52,7 +52,7 @@ export const AppSidebar = () => {
     <Sidebar>
       <SidebarHeader>
         <div className="flex items-center gap-3 ">
-          <Logo />
+          <LogoApp />
           <div className="">
             <div className="font-bold text-xl  text-foreground">
               {store.fullName}

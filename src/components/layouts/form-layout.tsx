@@ -46,7 +46,7 @@ export const InputShowDate = ({
   }, []);
   return (
     <>
-      {data !== undefined && data !== null && type === "checkbox" && (
+      {data !== undefined && data !== null && type == "checkbox" && (
         <div className=" h-11 flex items-center gap-2">
           <Switch checked={data} disabled={true} />
         </div>
@@ -55,7 +55,7 @@ export const InputShowDate = ({
       {data !== undefined && data !== null && type === "select" && (
         <Select defaultValue={data} disabled>
           <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select a fruit" />
+            <SelectValue placeholder="Selection du logement" />
           </SelectTrigger>
           <SelectContent>
             {selectOptions &&
@@ -69,7 +69,7 @@ export const InputShowDate = ({
       )}
       {data !== undefined &&
         data !== null &&
-        ["text", "email", "tel"].includes(type) && (
+        ["text", "email", "number", "tel"].includes(type) && (
           <>
             <Input
               id={name}
@@ -192,14 +192,13 @@ export const InputCustomData = (props : any) => {
       )}
       {props.type == "select" && (
         <>
-          {props.field.state.value}
           <Select
-            defaultValue={props.field.state.value}
+            defaultValue={props.value}
             value={props.field.state.value}
             onValueChange={(e) => props.field.handleChange(e)}
           >
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Select a fruit" />
+              <SelectValue placeholder="Selection du logement" />
             </SelectTrigger>
             <SelectContent>
               {selectOptions &&

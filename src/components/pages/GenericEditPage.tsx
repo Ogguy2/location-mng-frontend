@@ -61,6 +61,7 @@ export default function GenericEditPage({
           actions={actions}
         />
         <ContentPage.Body className="">
+            {/*{JSON.stringify(data.logementId)}*/}
           <FormGeneric
             entityConfig={config}
             mode="edit"

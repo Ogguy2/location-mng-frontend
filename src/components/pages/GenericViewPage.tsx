@@ -63,6 +63,7 @@ export default function GenericViewPage({
           actions={actions}
         />
         <ContentPage.Body className="">
+            {/*{JSON.stringify(data)}*/}
           <FormGeneric entityConfig={config} mode="view" initialData={data} />
         </ContentPage.Body>
       </ContentPage>

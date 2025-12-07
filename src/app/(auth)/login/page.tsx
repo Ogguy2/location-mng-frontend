@@ -13,7 +13,7 @@ const Page = () => {
   const [state, action, pending] = useActionState(signUp, undefined);
   const [error, setErrors] = React.useState<typeof state | any> (state);
   const [password, setPassword] = React.useState("password123");
-  const [email, setEmail] = React.useState("Maggie.Skiles@gmail.com");
+  const [email, setEmail] = React.useState("Zoey43@yahoo.com");
 
   React.useEffect(() => {
     setErrors(state);
@@ -42,7 +42,7 @@ const Page = () => {
               className="flex space-y-9 w-full flex-col font-nunito"
             >
               <div className="flex justify-center w-full">
-                <Logo />
+                <LogoApp />
               </div>
               <div className="space-y-5">
                 <div className="">
@@ -132,7 +132,7 @@ const LoginContainer = ({ children }: LoginContainerProps) => {
   return <div className=""></div>;
 };
 
-export const Logo = () => {
+export const LogoApp = () => {
   return (
     <div className="">
       <Image src={"/images/logo/logo1.png"} alt="logo" width={50} height={50} />
