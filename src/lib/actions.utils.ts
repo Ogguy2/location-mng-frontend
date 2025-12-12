@@ -36,6 +36,7 @@ interface BaseAction {
     type: "saveAction" | "url" | "confirm";
     href?: string;
     action?: () => void;
+    description?: string;
     iconName?: string; // Nom de l'icône pour référence
 }
 
